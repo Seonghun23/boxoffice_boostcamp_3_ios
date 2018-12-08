@@ -11,19 +11,135 @@ import Foundation
 class MovieAPI {
     // MARK:- URL List
     private let baseURL = "http://connect-boxoffice.run.goorm.io"
-    private let listURL = "/movies"
-    private let orderTypeParameter = "?order_type="
-    private let detailInfoURL = "/movie"
-    private let movieIdParameter = "?id="
-    private let commentsURL = "/comments"
-    private let commentsMovieId = "?movie_id="
+    private let url = (list:"/movies",
+                       detail:"/movie",
+                       comments:"/comments"
+                       )
+    private let parameters = (orderType: "?order_type=",
+                              movieId: "?id=",
+                              commentsMovieId:"?movie_id="
+                              )
+//    private let baseURL = "http://connect-boxoffice.run.goorm.io"
+//    private let listURL = "/movies"
+//    private let orderTypeParameter = "?order_type="
+//    private let detailInfoURL = "/movie"
+//    private let movieIdParameter = "?id="
+//    private let commentsURL = "/comments"
+//    private let commentsMovieId = "?movie_id="
     
-    // MARK:- Properties
+    // MARK:- Sort Type
     static var sortType: SortType = .reservation
+    
+    // MARK:- Networking Error Class
     private let networkingError = NetworkingError()
     
-    func requestMovieList(completion: @escaping (MovieList?, Error?)-> ()) {
+    // MARK:- Request Movie List
+    final func requestMovieList(sort: SortType, completion: @escaping (MovieList?, Error?)-> Void) {
+        let urlString = baseURL + url.list + parameters.orderType + String(sort.rawValue)
+        guard let url = URL(string: urlString) else {
+            print("Movie List URL is Wrong.")
+            return
+        }
         
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let sesstion = URLSession(configuration: .default)
+        let dataTask = sesstion.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            if let response = response as? HTTPURLResponse, response.statusCode != 200 {
+                completion(nil, self.networkingError.responseError(domain: urlString, code: response.statusCode))
+                return
+            }
+            guard let data = data else {
+                completion(nil, self.networkingError.responseError(domain: urlString, code: 204))
+                return
+            }
+            
+            do {
+                let result = try JSONDecoder().decode(MovieList.self, from: data)
+                MovieAPI.sortType = SortType.init(rawValue: result.orderType) ?? .reservation
+                completion(result, nil)
+            } catch let error {
+                completion(nil, error)
+            }
+        }
+        dataTask.resume()
+    }
+    
+    // MARK:- Request Movie Detail Info
+    final func requestMovieDetail(movieId: String, completion: @escaping(MovieDetail?, Error?) -> Void) {
+        let urlString = baseURL + url.detail + parameters.movieId + movieId
+        guard let url = URL(string: urlString) else {
+            print("Movie Detail URL is Wrong")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let sesstion = URLSession(configuration: .default)
+        let dataTask = sesstion.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            if let response = response as? HTTPURLResponse, response.statusCode != 200 {
+                completion(nil, self.networkingError.responseError(domain: urlString, code: response.statusCode))
+                return
+            }
+            guard let data = data else {
+                completion(nil, self.networkingError.responseError(domain: urlString, code: 204))
+                return
+            }
+            
+            do {
+                let result = try JSONDecoder().decode(MovieDetail.self, from: data)
+                completion(result, nil)
+            } catch let error {
+                completion(nil, error)
+            }
+        }
+        dataTask.resume()
+    }
+    
+    // MARK:- Request Movie Comments
+    final func requestMovieComments(movieId: String, completion: @escaping (Comments?, Error?) -> Void) {
+        let urlString = baseURL + url.comments + parameters.commentsMovieId + movieId
+        guard let url = URL(string: urlString) else {
+            print("Movie Comments URL is Wrong")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let sesstion = URLSession(configuration: .default)
+        let dataTask = sesstion.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            if let response = response as? HTTPURLResponse, response.statusCode != 200 {
+                completion(nil, self.networkingError.responseError(domain: urlString, code: response.statusCode))
+                return
+            }
+            guard let data = data else {
+                completion(nil, self.networkingError.responseError(domain: urlString, code: 204))
+                return
+            }
+            
+            do {
+                let result = try JSONDecoder().decode(Comments.self, from: data)
+                completion(result, nil)
+            } catch let error {
+                completion(nil, error)
+            }
+        }
+        dataTask.resume()
     }
     
     enum SortType: Int {

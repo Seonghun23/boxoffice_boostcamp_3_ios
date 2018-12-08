@@ -112,10 +112,10 @@
             </objects>
             <point key="canvasLocation" x="2016.8" y="131.78410794602701"/>
         </scene>
-        <!--Movie Detail Info View Controller-->
+        <!--Movie Detail View Controller-->
         <scene sceneID="zID-M1-W2r">
             <objects>
-                <viewController id="i5S-jc-wOm" customClass="MovieDetailInfoViewController" customModule="boxoffice_boostcamp_3_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="i5S-jc-wOm" customClass="MovieDetailViewController" customModule="boxoffice_boostcamp_3_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tFO-1c-aEA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

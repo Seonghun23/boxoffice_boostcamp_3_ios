@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieDetailInfoViewController: UIViewController {
+class MovieDetailViewController: UIViewController {
     @IBOutlet weak var MovieInformationTableView: UITableView!
     
     
@@ -26,7 +26,7 @@ class MovieDetailInfoViewController: UIViewController {
     }
 }
 
-extension MovieDetailInfoViewController: UITableViewDataSource {
+extension MovieDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
@@ -61,7 +61,7 @@ extension MovieDetailInfoViewController: UITableViewDataSource {
     }
 }
 
-extension MovieDetailInfoViewController: UITableViewDelegate {
+extension MovieDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard section == 2 else { return nil }
         return UIView()
@@ -82,7 +82,7 @@ extension MovieDetailInfoViewController: UITableViewDelegate {
 }
 
 // MARK:- Show Large Poster Image
-extension MovieDetailInfoViewController: HandleLargeThumbImageProtocol {
+extension MovieDetailViewController: HandleLargeThumbImageProtocol {
     func showLargeThumbImage(_ image: UIImage) {
         guard let VC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MoviePosterViewController") as? MovieThumbImageViewController else {
             print("Fail to create MoviePosterViewController")

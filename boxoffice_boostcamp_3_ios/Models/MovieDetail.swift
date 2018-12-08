@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - Movie Detail Infomation Data Model
-struct DetailInfo: Decodable {
+struct MovieDetail: Decodable {
     let title: String
     let duration: Int
     let audience: Int
