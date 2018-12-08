@@ -9,6 +9,6 @@
 import Foundation
 import UIKit
 
-protocol HandleLargePosterImageProtocol: class {
-    func showLargePosterImage(_ image: UIImage)
+protocol HandleLargeThumbImageProtocol: class {
+    func showLargeThumbImage(_ image: UIImage)
 }

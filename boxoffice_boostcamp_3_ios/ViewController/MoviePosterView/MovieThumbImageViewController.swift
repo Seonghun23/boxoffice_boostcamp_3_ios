@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MoviePosterViewController: UIViewController {
+class MovieThumbImageViewController: UIViewController {
     // MARK:- Properties
     @IBOutlet weak var moviePosterImageView: UIImageView!
     var posterImage: UIImage?

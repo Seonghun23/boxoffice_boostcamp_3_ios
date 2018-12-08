@@ -29,7 +29,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="119.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uzL-iD-1pC">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="uzL-iD-1pC">
                                                     <rect key="frame" x="20" y="5" width="77" height="109.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="uzL-iD-1pC" secondAttribute="height" multiplier="99:141" id="Chh-6M-b9s"/>
@@ -53,11 +53,11 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dHH-Tn-dAe">
-                                                    <rect key="frame" x="261" y="17.5" width="20" height="20"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_12" translatesAutoresizingMaskIntoConstraints="NO" id="dHH-Tn-dAe">
+                                                    <rect key="frame" x="261" y="15" width="25" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="dHH-Tn-dAe" secondAttribute="height" multiplier="1:1" id="d0j-at-Pyq"/>
-                                                        <constraint firstAttribute="width" constant="20" id="jx3-Gn-WvS"/>
+                                                        <constraint firstAttribute="width" constant="25" id="jx3-Gn-WvS"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
@@ -112,10 +112,10 @@
             </objects>
             <point key="canvasLocation" x="2016.8" y="131.78410794602701"/>
         </scene>
-        <!--Movie Information View Controller-->
+        <!--Movie Detail Info View Controller-->
         <scene sceneID="zID-M1-W2r">
             <objects>
-                <viewController id="i5S-jc-wOm" customClass="MovieInformationViewController" customModule="boxoffice_boostcamp_3_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="i5S-jc-wOm" customClass="MovieDetailInfoViewController" customModule="boxoffice_boostcamp_3_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tFO-1c-aEA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -152,10 +152,10 @@
             </objects>
             <point key="canvasLocation" x="3034" y="545"/>
         </scene>
-        <!--Movie Poster View Controller-->
+        <!--Movie Thumb Image View Controller-->
         <scene sceneID="MUo-Sx-IL6">
             <objects>
-                <viewController storyboardIdentifier="MoviePosterViewController" id="diZ-vS-YdJ" customClass="MoviePosterViewController" customModule="boxoffice_boostcamp_3_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MoviePosterViewController" id="diZ-vS-YdJ" customClass="MovieThumbImageViewController" customModule="boxoffice_boostcamp_3_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lYy-2U-6dB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -226,13 +226,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="166" height="334"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Yh-Md-ZKm">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="5Yh-Md-ZKm">
                                                     <rect key="frame" x="0.0" y="0.0" width="166" height="236.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="5Yh-Md-ZKm" secondAttribute="height" multiplier="99:141" id="6vu-Mf-IaN"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Fc-Tg-Hd5">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_12" translatesAutoresizingMaskIntoConstraints="NO" id="2Fc-Tg-Hd5">
                                                     <rect key="frame" x="126" y="10" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="2Fc-Tg-Hd5" secondAttribute="height" multiplier="1:1" id="FUq-Ef-2id"/>
@@ -364,9 +364,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ic_12" width="20" height="20"/>
         <image name="ic_collection" width="25" height="25"/>
         <image name="ic_settings" width="24" height="24"/>
         <image name="ic_table" width="24" height="24"/>
+        <image name="img_placeholder" width="100" height="140"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cT4-TI-HcU"/>
