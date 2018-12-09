@@ -25,7 +25,7 @@ class MovieListTableViewCell: UITableViewCell, ImageUtilityProtocol {
             gradeImageView.image = setGradeImage(movieInfo?.grade)
             titleLabel?.text = movieInfo?.title
             rateLabel?.text = movieInfo?.tableViewRateString
-            dateLabel?.text = movieInfo?.date
+            dateLabel?.text = movieInfo?.tableViewDateString
         }
     }
     

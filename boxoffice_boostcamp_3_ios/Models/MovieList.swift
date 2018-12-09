@@ -33,8 +33,12 @@ struct MovieInfo: Decodable {
     var tableViewRateString: String {
         return "평점 : " + String(format: "%.2f", userRating) + " 예매순위 : " + String(format: "%d", reservationGrade) + " 예매율 : " + String(format: "%.1f", reservationRate)
     }
+    var tableViewDateString: String {
+        return "개봉일 : " + date
+    }
+    
     var collectionViewRateString: String {
-        return String(format: "%d", reservationGrade) + "위(" + String(format: "%.1f", reservationRate) + ") / " + String(format: "%.2f", userRating) + "%"
+        return String(format: "%d", reservationGrade) + "위(" + String(format: "%.2f", userRating) + ") / " + String(format: "%.1f", reservationRate) + "%"
     }
     
     enum CodingKeys: String, CodingKey {

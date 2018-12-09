@@ -24,7 +24,7 @@ class MovieListCollectionViewCell: UICollectionViewCell, ImageUtilityProtocol {
         didSet {
             gradeImageView.image = setGradeImage(movieInfo?.grade)
             titleLabel?.text = movieInfo?.title
-            rateLabel?.text = movieInfo?.tableViewRateString
+            rateLabel?.text = movieInfo?.collectionViewRateString
             dateLabel?.text = movieInfo?.date
         }
     }

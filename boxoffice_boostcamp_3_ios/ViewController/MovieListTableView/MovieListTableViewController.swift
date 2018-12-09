@@ -18,18 +18,26 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
     private var refreshControl = UIRefreshControl()
     private var movies = [MovieInfo]()
     private var thumbImages = [Int:UIImage?]()
+    private var sortType = MovieAPI.sortType {
+        didSet {
+            switch sortType {
+            case .reservation:
+                navigationItem.title = "예매율순"
+            case .curation:
+                navigationItem.title = "큐레이션"
+            case .date:
+                navigationItem.title = "개봉일순"
+            }
+        }
+    }
     
-    private lazy var sortType = MovieAPI.sortType
-    
+    // MARK:- Initialize
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        MovieListTableView.delegate = self
-        MovieListTableView.dataSource = self
-        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-        MovieListTableView.refreshControl = refreshControl
-        
+        initializeTableView()
         fetchMovieList(sort: MovieAPI.sortType)
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,10 +48,19 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
         }
     }
     
+    private func initializeTableView() {
+        MovieListTableView.delegate = self
+        MovieListTableView.dataSource = self
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        MovieListTableView.refreshControl = refreshControl
+    }
+    
+    // MARK:- Refresh Method
     @objc private func refresh(_ sender: UIRefreshControl) {
         fetchMovieList(sort: MovieAPI.sortType)
     }
 
+    // MARK:- Fetch Movie List
     private func fetchMovieList(sort: SortType) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
@@ -53,11 +70,11 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
                 return
             }
             self.movies = movieList.movies
-            self.sortType = SortType.init(rawValue: movieList.orderType) ?? .reservation
             DispatchQueue.global().async {
                 self.fetchMovieListThumbImage(movies: movieList.movies)
             }
             DispatchQueue.main.async {
+                self.sortType = SortType.init(rawValue: movieList.orderType) ?? .reservation
                 self.MovieListTableView.reloadData()
                 self.refreshControl.endRefreshing()
             }
@@ -68,7 +85,6 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
         for i in movies.indices {
             fetchThumbImage(url: movies[i].thumb) { (thumb) in
                 if thumb == nil { print("Fail to fetch \(i) Index Thumb Image") }
-                
                 
                 DispatchQueue.main.async {
                     self.thumbImages[i] = thumb
@@ -116,6 +132,7 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
         present(alertController, animated: true, completion: nil)
     }
     
+    // MARK:- Alert Fail to Networking
     func showFailToNetworkingAlertController(error: Error?) {
         guard let error = error else {
             print("Fail To Networing with No Error Message")
@@ -140,6 +157,7 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
     }
 }
 
+// MARK:- TableView DataSource
 extension MovieListTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
@@ -159,5 +177,6 @@ extension MovieListTableViewController: UITableViewDataSource {
     }
 }
 
+// MARK:- TableView Delegate
 extension MovieListTableViewController: UITableViewDelegate {
 }
