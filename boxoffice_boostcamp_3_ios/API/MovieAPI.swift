@@ -141,10 +141,10 @@ class MovieAPI {
         }
         dataTask.resume()
     }
-    
-    enum SortType: Int {
-        case reservation = 0
-        case curation = 1
-        case date = 2
-    }
+}
+
+enum SortType: Int {
+    case reservation = 0
+    case curation = 1
+    case date = 2
 }

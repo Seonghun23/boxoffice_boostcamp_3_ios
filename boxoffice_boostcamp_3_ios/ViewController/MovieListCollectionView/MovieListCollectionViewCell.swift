@@ -8,15 +8,53 @@
 
 import UIKit
 
-class MovieListCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var posterImageView: UIImageView!
-    @IBOutlet weak var movieGradeImageView: UIImageView!
-    @IBOutlet weak var movieTitleLabel: UILabel!
-    @IBOutlet weak var movieRateLabel: UILabel!
-    @IBOutlet weak var movieDateLabel: UILabel!
+class MovieListCollectionViewCell: UICollectionViewCell, ImageUtilityProtocol {
+    // MARK:- Outlet
+    @IBOutlet weak var thumbImageView: UIImageView!
+    @IBOutlet weak var gradeImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var rateLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    
+    // MARK:- Properties
+    private var gradeImages = [String:UIImage]()
+    private let placeholder = UIImage(named: "img_placeholder")
+    
+    var movieInfo: MovieInfo? {
+        didSet {
+            gradeImageView.image = setGradeImage(movieInfo?.grade)
+            titleLabel?.text = movieInfo?.title
+            rateLabel?.text = movieInfo?.tableViewRateString
+            dateLabel?.text = movieInfo?.date
+        }
+    }
+    
+    func setGradeImage(_ grade: Int?) -> UIImage? {
+        guard let grade = grade else { return nil }
+        if let image = gradeImages[gradeImageName(grade: grade)] {
+            return image
+        } else {
+            DispatchQueue.global().async {
+                let image = UIImage(named: self.gradeImageName(grade: grade))
+                self.gradeImages[self.gradeImageName(grade: grade)] = image
+                DispatchQueue.main.async {
+                    self.gradeImageView.image = image
+                }
+            }
+        }
+        return nil
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        thumbImageView.image = placeholder
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        thumbImageView.image = placeholder
+        movieInfo = nil
     }
 }

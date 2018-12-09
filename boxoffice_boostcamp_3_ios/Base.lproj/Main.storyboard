@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieListTableViewCell" rowHeight="120" id="ftg-KF-tSh" customClass="MovieListTableViewCell" customModule="boxoffice_boostcamp_3_ios" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieListTableViewCell" rowHeight="120" id="ftg-KF-tSh" customClass="MovieListTableViewCell" customModule="boxoffice_boostcamp_3_ios" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ftg-KF-tSh" id="BcY-ga-Tnl">
@@ -79,11 +79,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="movieDateLabel" destination="0U4-ud-bym" id="BjI-K8-IaP"/>
-                                            <outlet property="movieGradeImageView" destination="dHH-Tn-dAe" id="8fF-WO-G8y"/>
-                                            <outlet property="movieRateLabel" destination="WpR-E6-J7y" id="lYM-Lg-BTv"/>
-                                            <outlet property="movieTitleLabel" destination="Xcg-JH-WaD" id="mEU-uq-Oor"/>
-                                            <outlet property="posterImageView" destination="uzL-iD-1pC" id="phy-gZ-IbO"/>
+                                            <outlet property="dateLabel" destination="0U4-ud-bym" id="BjI-K8-IaP"/>
+                                            <outlet property="gradeImageView" destination="dHH-Tn-dAe" id="8fF-WO-G8y"/>
+                                            <outlet property="rateLabel" destination="WpR-E6-J7y" id="lYM-Lg-BTv"/>
+                                            <outlet property="thumbImageView" destination="uzL-iD-1pC" id="phy-gZ-IbO"/>
+                                            <outlet property="titleLabel" destination="Xcg-JH-WaD" id="mEU-uq-Oor"/>
                                             <segue destination="i5S-jc-wOm" kind="show" id="cT4-TI-HcU"/>
                                         </connections>
                                     </tableViewCell>
@@ -102,6 +102,9 @@
                     <navigationItem key="navigationItem" id="mB2-st-pCe">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="ic_settings" id="SYY-UQ-zyD">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="touchUpSortButton:" destination="BYZ-38-t0r" id="mF1-fE-QM7"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -124,7 +127,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="rly-yI-gLQ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="rly-yI-gLQ">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rly-yI-gLQ" id="SBj-vS-tgQ">
@@ -288,11 +291,11 @@
                                             <constraint firstAttribute="trailing" secondItem="5Yh-Md-ZKm" secondAttribute="trailing" id="lRe-4l-bnx"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="movieDateLabel" destination="3I7-pm-uqz" id="G3e-3O-ads"/>
-                                            <outlet property="movieGradeImageView" destination="2Fc-Tg-Hd5" id="vfW-eo-RiX"/>
-                                            <outlet property="movieRateLabel" destination="viB-Vr-8PG" id="c8e-ZB-VLq"/>
-                                            <outlet property="movieTitleLabel" destination="Z88-FE-UrR" id="fa6-Ys-hty"/>
-                                            <outlet property="posterImageView" destination="5Yh-Md-ZKm" id="0wi-QL-MUb"/>
+                                            <outlet property="dateLabel" destination="3I7-pm-uqz" id="G3e-3O-ads"/>
+                                            <outlet property="gradeImageView" destination="2Fc-Tg-Hd5" id="vfW-eo-RiX"/>
+                                            <outlet property="rateLabel" destination="viB-Vr-8PG" id="c8e-ZB-VLq"/>
+                                            <outlet property="thumbImageView" destination="5Yh-Md-ZKm" id="0wi-QL-MUb"/>
+                                            <outlet property="titleLabel" destination="Z88-FE-UrR" id="fa6-Ys-hty"/>
                                             <segue destination="i5S-jc-wOm" kind="show" id="5xQ-UL-L2i"/>
                                         </connections>
                                     </collectionViewCell>
