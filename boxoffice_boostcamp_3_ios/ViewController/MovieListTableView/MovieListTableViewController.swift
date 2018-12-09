@@ -37,7 +37,6 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
 
         initializeTableView()
         fetchMovieList(sort: MovieAPI.sortType)
-        navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,6 +80,7 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
         }
     }
     
+    // MARK:- Fetch Movie List Thumb Image
     private func fetchMovieListThumbImage(movies: [MovieInfo]) {
         for i in movies.indices {
             fetchThumbImage(url: movies[i].thumb) { (thumb) in
@@ -99,17 +99,12 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
         }
     }
     
-    // MARK:- Touch Up Sort Alert Acrtion Sheet
+    // MARK:- Touch Up Sort Button
     @IBAction func touchUpSortButton(_ sender: UIBarButtonItem) {
         showSortAlertController()
     }
     
-    func requestSortedMovieList(sort: SortType) {
-        if sort != sortType {
-            fetchMovieList(sort: sort)
-        }
-    }
-    
+    // MARK:- Show Sort Action Sheet
     private func showSortAlertController() {
         let alertController: UIAlertController = UIAlertController(title: "정렬방식 선택", message: "영화를 어떤 순서로 정렬할까요?", preferredStyle: UIAlertController.Style.actionSheet)
         
@@ -132,7 +127,13 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
         present(alertController, animated: true, completion: nil)
     }
     
-    // MARK:- Alert Fail to Networking
+    private func requestSortedMovieList(sort: SortType) {
+        if sort != sortType {
+            fetchMovieList(sort: sort)
+        }
+    }
+    
+    // MARK:- Show Networking Fail Alert
     func showFailToNetworkingAlertController(error: Error?) {
         guard let error = error else {
             print("Fail To Networing with No Error Message")
@@ -150,10 +151,17 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
         }
     }
     
-    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
- 
+        guard let VC = segue.destination as? MovieDetailViewController,
+            let cell = sender as? MovieListTableViewCell,
+            let index = MovieListTableView?.indexPath(for: cell)
+            else {
+                print("Fail To Prepare for TableView Segue")
+                return
+        }
+        
+        VC.movieId = movies[index.row].id
     }
 }
 

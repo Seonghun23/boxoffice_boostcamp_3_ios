@@ -9,6 +9,7 @@
 import UIKit
 
 class MovieListCollectionViewController: UIViewController, ImageUtilityProtocol {
+    // MARK:- Outlet
     @IBOutlet weak var MovieListCollectionView: UICollectionView!
     
     // MARK:- Properties
@@ -30,12 +31,12 @@ class MovieListCollectionViewController: UIViewController, ImageUtilityProtocol 
         }
     }
     
+    // MARK:- Initialize
     override func viewDidLoad() {
         super.viewDidLoad()
 
         initializeColletionView()
         fetchMovieList(sort: MovieAPI.sortType)
-        navigationController?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,12 +55,13 @@ class MovieListCollectionViewController: UIViewController, ImageUtilityProtocol 
         MovieListCollectionView.refreshControl = refreshControl
     }
     
+    // MARK:- CollectionView Layout 
     private func collectionViewLayout() -> UICollectionViewFlowLayout {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         
         flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        flowLayout.minimumLineSpacing = 3
-        flowLayout.minimumInteritemSpacing = 3
+        flowLayout.minimumLineSpacing = 5
+        flowLayout.minimumInteritemSpacing = 5
         
         let cellWitdh: CGFloat = (UIScreen.main.bounds.width / 2.0) - 20
         let cellHeight: CGFloat = cellWitdh * (141/99) + 97.5
@@ -94,15 +96,15 @@ class MovieListCollectionViewController: UIViewController, ImageUtilityProtocol 
         }
     }
     
+    // MARK:- Fetch Movie List Thumb Image
     private func fetchMovieListThumbImage(movies: [MovieInfo]) {
         for i in movies.indices {
             fetchThumbImage(url: movies[i].thumb) { (thumb) in
                 if thumb == nil { print("Fail to fetch \(i) Index Thumb Image") }
                 
-                
                 DispatchQueue.main.async {
                     self.thumbImages[i] = thumb
-                    let index = IndexPath(row: i, section: 0)
+                    let index = IndexPath(item: i, section: 0)
                     self.MovieListCollectionView.reloadItems(at: [index])
                     
                     if movies.count == self.thumbImages.count {
@@ -113,17 +115,12 @@ class MovieListCollectionViewController: UIViewController, ImageUtilityProtocol 
         }
     }
     
-    // MARK:- Touch Up Sort Alert Acrtion Sheet
+    // MARK:- Touch Up Sort Button
     @IBAction func touchUpSortButton(_ sender: UIBarButtonItem) {
         showSortAlertController()
     }
     
-    func requestSortedMovieList(sort: SortType) {
-        if sort != sortType {
-            fetchMovieList(sort: sort)
-        }
-    }
-    
+    // MARK:- Show Sort Action Sheet
     private func showSortAlertController() {
         let alertController: UIAlertController = UIAlertController(title: "정렬방식 선택", message: "영화를 어떤 순서로 정렬할까요?", preferredStyle: UIAlertController.Style.actionSheet)
         
@@ -146,6 +143,12 @@ class MovieListCollectionViewController: UIViewController, ImageUtilityProtocol 
         present(alertController, animated: true, completion: nil)
     }
     
+    func requestSortedMovieList(sort: SortType) {
+        if sort != sortType {
+            fetchMovieList(sort: sort)
+        }
+    }
+    
     // MARK:- Alert Fail to Networking
     func showFailToNetworkingAlertController(error: Error?) {
         guard let error = error else {
@@ -166,7 +169,15 @@ class MovieListCollectionViewController: UIViewController, ImageUtilityProtocol 
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
- 
+        guard let VC = segue.destination as? MovieDetailViewController,
+            let cell = sender as? MovieListCollectionViewCell,
+            let index = MovieListCollectionView?.indexPath(for: cell)
+            else {
+                print("Fail To Prepare for CollectionView Segue")
+                return
+        }
+        
+        VC.movieId = movies[index.item].id
     }
 }
 
@@ -178,7 +189,7 @@ extension MovieListCollectionViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? MovieListCollectionViewCell else {
-            fatalError("Fail to Create MovieList TableView Cell")
+            fatalError("Fail to Create MovieList CollectionView Cell")
         }
         
         cell.movieInfo = movies[indexPath.item]

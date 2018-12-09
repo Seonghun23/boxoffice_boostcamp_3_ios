@@ -29,6 +29,7 @@ class MovieListCollectionViewCell: UICollectionViewCell, ImageUtilityProtocol {
         }
     }
     
+    // MARK:- Set Grade Image
     func setGradeImage(_ grade: Int?) -> UIImage? {
         guard let grade = grade else { return nil }
         if let image = gradeImages[gradeImageName(grade: grade)] {
@@ -45,6 +46,7 @@ class MovieListCollectionViewCell: UICollectionViewCell, ImageUtilityProtocol {
         return nil
     }
     
+    // MARK:- Initialize
     override func awakeFromNib() {
         super.awakeFromNib()
         

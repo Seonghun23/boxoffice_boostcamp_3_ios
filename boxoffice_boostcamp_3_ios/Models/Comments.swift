@@ -10,7 +10,7 @@ import Foundation
 
 // MARK:- Comment List Data Model
 struct Comments: Decodable {
-    let commentList: [Comment]
+    let comments: [Comment]
 }
 
 // MARK:- Comment Data Model for Comment List
