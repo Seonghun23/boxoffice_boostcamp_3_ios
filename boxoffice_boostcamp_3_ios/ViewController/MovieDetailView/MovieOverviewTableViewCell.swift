@@ -24,7 +24,6 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageUtilityProtocol {
     // MARK:- Properties
     weak public var delegate: HandleLargeThumbImageProtocol?
     weak private var thumbImage: UIImage?
-    private var starImage = [String:UIImage]()
     private var rate: Double = 0.0 {
         didSet {
             setStarRateImage(rate: rate)
@@ -55,17 +54,7 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageUtilityProtocol {
     // MARK:- Set Star Rate Image
     private func setStarRateImage(rate: Double) {
         for i in starRateImageView.indices {
-            if let image = starImage[starImageName(index: i, rate: rate)] {
-                starRateImageView[i].image = image
-            } else {
-                DispatchQueue.global().async {
-                    guard let image = UIImage(named: self.starImageName(index: i, rate: rate)) else { return }
-                    self.starImage[self.starImageName(index: i, rate: rate)] = image
-                    DispatchQueue.main.async {
-                        self.starRateImageView[i].image = image
-                    }
-                }
-            }
+            starRateImageView[i].image = UIImage(named: self.starImageName(index: i, rate: rate))
         }
     }
     

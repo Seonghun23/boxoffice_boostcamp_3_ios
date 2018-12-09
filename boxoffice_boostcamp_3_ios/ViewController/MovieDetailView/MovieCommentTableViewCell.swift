@@ -16,7 +16,6 @@ class MovieCommentTableViewCell: UITableViewCell, ImageUtilityProtocol {
     @IBOutlet weak var contentsLabel: UILabel!
     
     // MARK:- Properties
-    private var starImage = [String:UIImage]()
     private var rate = 0.0 {
         didSet {
             setStarRateImage(rate: rate)
@@ -34,20 +33,11 @@ class MovieCommentTableViewCell: UITableViewCell, ImageUtilityProtocol {
     // MARK:- Set Star Rate Image
     private func setStarRateImage(rate: Double) {
         for i in starRateImageView.indices {
-            if let image = starImage[starImageName(index: i, rate: rate)] {
-                starRateImageView[i].image = image
-            } else {
-                DispatchQueue.global().async {
-                    guard let image = UIImage(named: self.starImageName(index: i, rate: rate)) else { return }
-                    self.starImage[self.starImageName(index: i, rate: rate)] = image
-                    DispatchQueue.main.async {
-                        self.starRateImageView[i].image = image
-                    }
-                }
-            }
+            starRateImageView[i].image = UIImage(named: self.starImageName(index: i, rate: rate))
         }
     }
     
+    // MARK:- Prepare For Reuse
     override func prepareForReuse() {
         super.prepareForReuse()
         

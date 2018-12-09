@@ -19,13 +19,6 @@ class MovieAPI {
                               movieId: "?id=",
                               commentsMovieId:"?movie_id="
                               )
-//    private let baseURL = "http://connect-boxoffice.run.goorm.io"
-//    private let listURL = "/movies"
-//    private let orderTypeParameter = "?order_type="
-//    private let detailInfoURL = "/movie"
-//    private let movieIdParameter = "?id="
-//    private let commentsURL = "/comments"
-//    private let commentsMovieId = "?movie_id="
     
     // MARK:- Sort Type
     static var sortType: SortType = .reservation
@@ -143,6 +136,7 @@ class MovieAPI {
     }
 }
 
+// MARK:- SortType Enum
 enum SortType: Int {
     case reservation = 0
     case curation = 1

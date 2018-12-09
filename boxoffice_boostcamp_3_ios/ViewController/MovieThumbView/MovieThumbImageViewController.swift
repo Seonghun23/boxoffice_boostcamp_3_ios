@@ -10,23 +10,23 @@ import UIKit
 
 class MovieThumbImageViewController: UIViewController {
     // MARK:- Properties
-    @IBOutlet weak var moviePosterImageView: UIImageView!
-    var posterImage: UIImage?
+    @IBOutlet weak var thumbImageView: UIImageView!
+    public var thumbImage: UIImage?
     
     // MARK:- Initialize
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let image = posterImage else {
+        guard let image = thumbImage else {
             dismiss(animated: true, completion: { print("Fail to Display Poster Image") }) 
             return
         }
 
-        moviePosterImageView.image = image
-        
+        thumbImageView.image = image
+        thumbImageView.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addTarget(self, action: #selector(touchUpPosterImageView(_:)))
-        moviePosterImageView.addGestureRecognizer(tapGesture)
+        thumbImageView.addGestureRecognizer(tapGesture)
     }
     
     // MARK:- Touch Up Poster Image

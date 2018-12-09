@@ -200,7 +200,7 @@ extension MovieDetailViewController: HandleLargeThumbImageProtocol {
             print("Fail to create MoviePosterViewController")
             return
         }
-        VC.posterImage = image
+        VC.thumbImage = image
         present(VC, animated: true, completion: nil)
     }
 }

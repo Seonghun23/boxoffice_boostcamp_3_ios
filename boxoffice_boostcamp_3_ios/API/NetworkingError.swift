@@ -9,7 +9,7 @@
 import Foundation
 
 class NetworkingError {
-    func responseError(domain: String = "", code: Int = 404) -> Error {
+    public func responseError(domain: String = "", code: Int = 404) -> Error {
         return NSError(domain: domain, code: code, userInfo: ["Message":"The Data couldn't read"])
     }
 }

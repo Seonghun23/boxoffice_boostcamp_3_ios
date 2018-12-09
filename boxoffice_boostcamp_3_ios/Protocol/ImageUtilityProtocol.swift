@@ -16,6 +16,7 @@ protocol ImageUtilityProtocol {
 }
 
 extension ImageUtilityProtocol {
+    // MARK:- Return Star Image Asset Name
     func starImageName(index: Int, rate: Double) -> String {
         switch true {
         case rate >= (Double(index) * 2.0) + 2.0:
@@ -27,6 +28,7 @@ extension ImageUtilityProtocol {
         }
     }
     
+    // MARK:- Return Grade Image Asset Name
     func gradeImageName(grade: Int) -> String {
         if grade == 0 {
             return "ic_allages"
@@ -35,6 +37,7 @@ extension ImageUtilityProtocol {
         }
     }
     
+    // MARK:- Fetch Image From URL
     func fetchThumbImage(url: String, completiopn: @escaping(UIImage?) -> Void) {
         DispatchQueue.global().async {
             guard let url = URL(string: url),

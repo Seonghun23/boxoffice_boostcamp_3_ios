@@ -53,6 +53,7 @@ class MovieListCollectionViewCell: UICollectionViewCell, ImageUtilityProtocol {
         thumbImageView.image = placeholder
     }
     
+    // MARK:- Prepare For Reuse
     override func prepareForReuse() {
         super.prepareForReuse()
         
