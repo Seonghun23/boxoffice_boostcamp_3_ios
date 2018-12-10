@@ -58,7 +58,7 @@ class MovieDetailViewController: UIViewController, ImageUtilityProtocol {
             self.movieDetail = movieDetail
             DispatchQueue.main.async {
                 self.MovieDetailTableView.reloadData()
-                self.finishNetworking()
+                self.endNetworking()
             }
         }
     }
@@ -74,12 +74,12 @@ class MovieDetailViewController: UIViewController, ImageUtilityProtocol {
             self.comments = comments.comments
             DispatchQueue.main.async {
                 self.MovieDetailTableView.reloadData()
-                self.finishNetworking()
+                self.endNetworking()
             }
         }
     }
     
-    private func finishNetworking() {
+    private func endNetworking() {
         guard movieDetail != nil, !comments.isEmpty else { return }
         self.refreshControl.endRefreshing()
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -91,10 +91,10 @@ class MovieDetailViewController: UIViewController, ImageUtilityProtocol {
             print("Fail To Networing with No Error Message")
             return
         }
-        
         print(error.localizedDescription)
-        let alertController: UIAlertController = UIAlertController(title: nil, message: "영화목록을 가져오는데 실패했습니다.\n인터넷 연결을 확인해 주세요.", preferredStyle: UIAlertController.Style.alert)
-        let cancelAction: UIAlertAction = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
+        
+        let alertController = UIAlertController(title: nil, message: "영화목록을 가져오는데 실패했습니다.\n인터넷 연결을 확인해 주세요.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
         DispatchQueue.main.async {
@@ -133,8 +133,10 @@ extension MovieDetailViewController: UITableViewDataSource {
             return movieSynopsisTableViewCell(tableView: tableView, indexPath: indexPath)
         case 2:
             return movieStaffTableViewCell(tableView: tableView, indexPath: indexPath)
-        default:
+        case 3:
             return movieCommentTableViewCell(tableView: tableView, indexPath: indexPath)
+        default:
+            fatalError("Request Wrong Section Cell")
         }
     }
     
@@ -150,7 +152,7 @@ extension MovieDetailViewController: UITableViewDataSource {
     
     private func movieSynopsisTableViewCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier[1], for: indexPath) as? MovieSynopsisTableViewCell else {
-            fatalError("Fail to Create Movie Overview Cell")
+            fatalError("Fail to Create Movie Synopsis Cell")
         }
         cell.movieInfo = movieDetail
 
@@ -159,7 +161,7 @@ extension MovieDetailViewController: UITableViewDataSource {
     
     private func movieStaffTableViewCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier[2], for: indexPath) as? MovieStaffTableViewCell else {
-            fatalError("Fail to Create Movie Overview Cell")
+            fatalError("Fail to Create Movie Staff Cell")
         }
         cell.movieInfo = movieDetail
         
@@ -168,7 +170,7 @@ extension MovieDetailViewController: UITableViewDataSource {
     
     private func movieCommentTableViewCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier[3], for: indexPath) as? MovieCommentTableViewCell else {
-            fatalError("Fail to Create Movie Overview Cell")
+            fatalError("Fail to Create Movie Comment Cell")
         }
         cell.comment = comments[indexPath.row]
         
@@ -180,9 +182,7 @@ extension MovieDetailViewController: UITableViewDataSource {
 extension MovieDetailViewController: UITableViewDelegate {
     // MARK:- TableView Header
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsHeaderCell") else {
-            fatalError("Fail to Create Comments Header Cell")
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsHeaderCell")
         
         return cell
     }
@@ -207,11 +207,11 @@ extension MovieDetailViewController: UITableViewDelegate {
     }
 }
 
-// MARK:- Show Large Poster Image
-extension MovieDetailViewController: HandleLargeThumbImageProtocol {
+// MARK:- Show Large Thumb Image
+extension MovieDetailViewController: HandleShowLargeThumbImageProtocol {
     func showLargeThumbImage(_ image: UIImage) {
         guard let VC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MoviePosterViewController") as? MovieThumbImageViewController else {
-            print("Fail to create MoviePosterViewController")
+            print("Fail to Create Movie Thumb ViewController")
             return
         }
         VC.thumbImage = image

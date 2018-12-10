@@ -25,12 +25,12 @@ class MovieThumbImageViewController: UIViewController {
         thumbImageView.image = image
         thumbImageView.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer()
-        tapGesture.addTarget(self, action: #selector(touchUpPosterImageView(_:)))
+        tapGesture.addTarget(self, action: #selector(tapMovieThumbImageView(_:)))
         thumbImageView.addGestureRecognizer(tapGesture)
     }
     
-    // MARK:- Touch Up Poster Image
-    @objc private func touchUpPosterImageView(_ sender: UITapGestureRecognizer) {
+    // MARK:- Tap Movie Thumb ImageView
+    @objc private func tapMovieThumbImageView(_ sender: UITapGestureRecognizer) {
         dismiss(animated: true, completion: nil)
     }
 }

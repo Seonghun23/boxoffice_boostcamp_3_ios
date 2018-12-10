@@ -25,9 +25,15 @@ struct MovieDetail: Decodable {
     let date: String
     let id: String
     
-    var releaseDate: String { return date + "개봉" }
-    var genreAndDuration: String { return genre + "/" + String(format: "%d", duration) + "분" }
-    var reservation: String { return String(format: "%d", reservationGrade) + "위 " + String(format: "%.1f", reservationRate) + "%" }
+    var releaseDate: String {
+        return date + "개봉"
+    }
+    var genreAndDuration: String {
+        return genre + "/" + String(format: "%d", duration) + "분"
+    }
+    var reservation: String {
+        return String(format: "%d", reservationGrade) + "위 " + String(format: "%.1f", reservationRate) + "%"
+    }
     var audienceNumber: String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

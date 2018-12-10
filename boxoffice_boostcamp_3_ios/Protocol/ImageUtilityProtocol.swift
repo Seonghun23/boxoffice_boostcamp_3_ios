@@ -6,9 +6,9 @@
 //  Copyright © 2018 Seonghun Kim. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
+// MARK:- ImageUtilityProtocol
 protocol ImageUtilityProtocol {
     func starImageName(index: Int, rate: Double) -> String
     func gradeImageName(grade: Int) -> String

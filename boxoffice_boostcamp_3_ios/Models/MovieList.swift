@@ -36,7 +36,6 @@ struct MovieInfo: Decodable {
     var tableViewDateString: String {
         return "개봉일 : " + date
     }
-    
     var collectionViewRateString: String {
         return String(format: "%d", reservationGrade) + "위(" + String(format: "%.2f", userRating) + ") / " + String(format: "%.1f", reservationRate) + "%"
     }

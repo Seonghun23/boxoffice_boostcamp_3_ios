@@ -8,6 +8,7 @@
 
 import UIKit
 
-protocol HandleLargeThumbImageProtocol: class {
+// MARK:- Handle Show Large Thumb Image Protocol
+protocol HandleShowLargeThumbImageProtocol: class {
     func showLargeThumbImage(_ image: UIImage)
 }

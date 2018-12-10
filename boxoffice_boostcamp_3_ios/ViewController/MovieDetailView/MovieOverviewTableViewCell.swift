@@ -22,7 +22,7 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageUtilityProtocol {
     @IBOutlet weak var audienceLabel: UILabel!
     
     // MARK:- Properties
-    weak public var delegate: HandleLargeThumbImageProtocol?
+    weak public var delegate: HandleShowLargeThumbImageProtocol?
     weak private var thumbImage: UIImage?
     private var rate: Double = 0.0 {
         didSet {
@@ -32,13 +32,7 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageUtilityProtocol {
     }
     public var movieInfo: MovieDetail? {
         didSet {
-            fetchMovieThumbImage(url: movieInfo?.image)
-            rate = movieInfo?.userRating ?? 0.0
-            titleLabel.text = movieInfo?.title
-            dateLabel.text = movieInfo?.releaseDate
-            gerneLabel.text = movieInfo?.genreAndDuration
-            reservationLabel.text = movieInfo?.reservation
-            audienceLabel.text = movieInfo?.audienceNumber
+            initializeCell(info: movieInfo)
         }
     }
     
@@ -47,8 +41,18 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageUtilityProtocol {
         super.awakeFromNib()
         
         thumbImageView.isUserInteractionEnabled = true
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleShowLargeImage(_:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapMovieThumbImageView(_:)))
         thumbImageView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    private func initializeCell(info: MovieDetail?) {
+        fetchMovieThumbImage(url: info?.image)
+        rate = info?.userRating ?? 0.0
+        titleLabel.text = info?.title
+        dateLabel.text = info?.releaseDate
+        gerneLabel.text = info?.genreAndDuration
+        reservationLabel.text = info?.reservation
+        audienceLabel.text = info?.audienceNumber
     }
 
     // MARK:- Set Star Rate Image
@@ -70,8 +74,8 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageUtilityProtocol {
         }
     }
     
-    // MARK:- Show Large Thumb Image
-    @objc func handleShowLargeImage(_ sender: UITapGestureRecognizer) {
+    // MARK:- Tap Movie Thumb ImageView
+    @objc private func tapMovieThumbImageView(_ sender: UITapGestureRecognizer) {
         guard let image = thumbImage else { return }
         delegate?.showLargeThumbImage(image)
     }

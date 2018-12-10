@@ -21,11 +21,16 @@ class MovieListTableViewCell: UITableViewCell, ImageUtilityProtocol {
     private let placeholder = UIImage(named: "img_placeholder")
     public var movieInfo: MovieInfo? {
         didSet {
-            gradeImageView.image = setGradeImage(movieInfo?.grade)
-            titleLabel?.text = movieInfo?.title
-            rateLabel?.text = movieInfo?.tableViewRateString
-            dateLabel?.text = movieInfo?.tableViewDateString
+            initializeCell(info: movieInfo)
         }
+    }
+    
+    // MARK:- Initialize
+    private func initializeCell(info: MovieInfo?) {
+        gradeImageView.image = setGradeImage(info?.grade)
+        titleLabel?.text = info?.title
+        rateLabel?.text = info?.tableViewRateString
+        dateLabel?.text = info?.tableViewDateString
     }
     
     // MARK:- Set Grade Image
@@ -44,14 +49,7 @@ class MovieListTableViewCell: UITableViewCell, ImageUtilityProtocol {
         }
         return nil
     }
-    
-    // MARK:- Initialize
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        thumbImageView.image = placeholder
-    }
-    
+
     // MARK:- Prepare For Reuse
     override func prepareForReuse() {
         super.prepareForReuse()

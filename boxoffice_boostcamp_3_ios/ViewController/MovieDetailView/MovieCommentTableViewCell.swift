@@ -23,11 +23,16 @@ class MovieCommentTableViewCell: UITableViewCell, ImageUtilityProtocol {
     }
     public var comment: Comment? {
         didSet {
-            rate = comment?.rating ?? 0.0
-            writerLabel.text = comment?.writer
-            dateLabel.text = comment?.dateAndTime
-            contentsLabel.text = comment?.contents
+            initializeCell(info: comment)
         }
+    }
+    
+    // MARK:- Initialize
+    private func initializeCell(info: Comment?) {
+        rate = info?.rating ?? 0.0
+        writerLabel.text = info?.writer
+        dateLabel.text = info?.dateAndTime
+        contentsLabel.text = info?.contents
     }
     
     // MARK:- Set Star Rate Image

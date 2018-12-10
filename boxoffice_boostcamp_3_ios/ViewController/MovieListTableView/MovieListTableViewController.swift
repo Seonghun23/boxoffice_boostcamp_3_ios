@@ -36,6 +36,7 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
         super.viewDidLoad()
 
         initializeTableView()
+        sortType = MovieAPI.sortType
         fetchMovieList(sort: MovieAPI.sortType)
     }
     
@@ -106,18 +107,18 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
     
     // MARK:- Show Sort Action Sheet
     private func showSortAlertController() {
-        let alertController: UIAlertController = UIAlertController(title: "정렬방식 선택", message: "영화를 어떤 순서로 정렬할까요?", preferredStyle: UIAlertController.Style.actionSheet)
+        let alertController = UIAlertController(title: "정렬방식 선택", message: "영화를 어떤 순서로 정렬할까요?", preferredStyle: .actionSheet)
         
-        let reservationAction: UIAlertAction = UIAlertAction(title: "예매율", style: UIAlertAction.Style.default) { (action: UIAlertAction) in
+        let reservationAction = UIAlertAction(title: "예매율", style: .default) { _ in
             self.requestSortedMovieList(sort: .reservation)
         }
-        let curationAction: UIAlertAction = UIAlertAction(title: "큐레이션", style: UIAlertAction.Style.default) { (action: UIAlertAction) in
+        let curationAction = UIAlertAction(title: "큐레이션", style: .default) { _ in
             self.requestSortedMovieList(sort: .curation)
         }
-        let dateAction: UIAlertAction = UIAlertAction(title: "개봉일", style: UIAlertAction.Style.default) { (action: UIAlertAction) in
+        let dateAction = UIAlertAction(title: "개봉일", style: .default) { _ in
             self.requestSortedMovieList(sort: .date)
         }
-        let cancelAction: UIAlertAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alertController.addAction(reservationAction)
         alertController.addAction(curationAction)
@@ -134,15 +135,15 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
     }
     
     // MARK:- Show Networking Fail Alert
-    func showFailToNetworkingAlertController(error: Error?) {
+    private func showFailToNetworkingAlertController(error: Error?) {
         guard let error = error else {
             print("Fail To Networing with No Error Message")
             return
         }
-        
         print(error.localizedDescription)
-        let alertController: UIAlertController = UIAlertController(title: nil, message: "영화목록을 가져오는데 실패했습니다.\n인터넷 연결을 확인해 주세요.", preferredStyle: UIAlertController.Style.alert)
-        let cancelAction: UIAlertAction = UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil)
+        
+        let alertController = UIAlertController(title: nil, message: "영화목록을 가져오는데 실패했습니다.\n인터넷 연결을 확인해 주세요.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
         DispatchQueue.main.async {
