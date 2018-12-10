@@ -178,11 +178,25 @@ extension MovieDetailViewController: UITableViewDataSource {
 
 // MARK:- TableView Delegate
 extension MovieDetailViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        guard section == 2 else { return nil }
-//        return UIView()
-//    }
+    // MARK:- TableView Header
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsHeaderCell") else {
+            fatalError("Fail to Create Comments Header Cell")
+        }
+        
+        return cell
+    }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch section {
+        case 3:
+            return 50.0
+        default:
+            return 0.0
+        }
+    }
+    
+    // MARK:- TableView Footer
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         switch section {
         case 0..<3:
