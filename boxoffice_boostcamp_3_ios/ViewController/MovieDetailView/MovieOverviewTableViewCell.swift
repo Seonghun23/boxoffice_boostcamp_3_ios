@@ -58,7 +58,7 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageUtilityProtocol {
     // MARK:- Set Star Rate Image
     private func setStarRateImage(rate: Double) {
         for i in starRateImageView.indices {
-            starRateImageView[i].image = UIImage(named: self.starImageName(index: i, rate: rate))
+            starRateImageView[i].image = starRateImage(index: i, rate: rate)
         }
     }
     

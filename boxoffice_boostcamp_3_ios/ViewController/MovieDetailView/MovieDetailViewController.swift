@@ -67,7 +67,6 @@ class MovieDetailViewController: UIViewController, ImageUtilityProtocol {
     private func fetchMovieCommentList() {
         movieAPI.requestMovieComments(movieId: movieId) { (comments, error) in
             guard let comments = comments else {
-                self.comments = []
                 self.showFailToNetworkingAlertController(error: error)
                 return
             }

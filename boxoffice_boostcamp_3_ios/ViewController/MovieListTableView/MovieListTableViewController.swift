@@ -148,6 +148,7 @@ class MovieListTableViewController: UIViewController, ImageUtilityProtocol {
         
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            self.refreshControl.endRefreshing()
             self.present(alertController, animated: true, completion: nil)
         }
     }

@@ -10,21 +10,21 @@ import UIKit
 
 // MARK:- ImageUtilityProtocol
 protocol ImageUtilityProtocol {
-    func starImageName(index: Int, rate: Double) -> String
+    func starRateImage(index: Int, rate: Double) -> UIImage?
     func gradeImageName(grade: Int) -> String
     func fetchThumbImage(url: String, completiopn: @escaping(UIImage?) -> Void)
 }
 
 extension ImageUtilityProtocol {
-    // MARK:- Return Star Image Asset Name
-    func starImageName(index: Int, rate: Double) -> String {
+    // MARK:- Return Star Image for Rate
+    func starRateImage(index: Int, rate: Double) -> UIImage? {
         switch true {
         case rate >= (Double(index) * 2.0) + 2.0:
-            return "ic_star_large_full"
+            return UIImage(named: "ic_star_large_full")
         case rate >= (Double(index) * 2.0) + 1.0 && rate < (Double(index) * 2.0) + 2.0:
-            return "ic_star_large_half"
+            return UIImage(named: "ic_star_large_half")
         default:
-            return "ic_star_large"
+            return UIImage(named: "ic_star_large")
         }
     }
     
