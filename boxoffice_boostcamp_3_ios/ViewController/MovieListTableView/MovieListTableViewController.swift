@@ -136,11 +136,7 @@ class MovieListTableViewController: UIViewController, ImageAssetsNameProtocol {
     
     // MARK:- Show Networking Fail Alert
     private func showFailToNetworkingAlertController(error: Error?) {
-        guard let error = error else {
-            print("Fail To Networing with No Error Message")
-            return
-        }
-        print(error.localizedDescription)
+        print(error?.localizedDescription ?? "Fail To Networing with No Error Message")
         
         let alertController = UIAlertController(title: nil, message: "영화목록을 가져오는데 실패했습니다.\n인터넷 연결을 확인해 주세요.", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
