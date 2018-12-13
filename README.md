@@ -7,4 +7,5 @@
 - iOS 12.0+
 - Xcode 10
 
-### [by. Seonghun Kim](https://github.com/Seonghun23) email: <kim.seonghun23@gmail.com>
+### [by. Seonghun Kim](https://github.com/Seonghun23)
+### email: <kim.seonghun23@gmail.com>
