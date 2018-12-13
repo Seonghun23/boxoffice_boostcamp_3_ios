@@ -8,11 +8,11 @@
 
 import UIKit
 
-class MovieOverviewTableViewCell: UITableViewCell, ImageUtilityProtocol {
+class MovieOverviewTableViewCell: UITableViewCell, ImageAssetsNameProtocol, ViewLayoutUtilityProtocol {
     // MARK:- Outlet
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var gradeImageView: UIImageView!
+    @IBOutlet weak var gradeView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var gerneLabel: UILabel!
     
@@ -47,6 +47,7 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageUtilityProtocol {
     
     private func initializeCell(info: MovieDetail?) {
         fetchMovieThumbImage(url: info?.image)
+        setGradeView(grade: info?.gradeType, view: gradeView)
         rate = info?.userRating ?? 0.0
         titleLabel.text = info?.title
         dateLabel.text = info?.releaseDate
@@ -57,8 +58,8 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageUtilityProtocol {
 
     // MARK:- Set Star Rate Image
     private func setStarRateImage(rate: Double) {
-        for i in starRateImageView.indices {
-            starRateImageView[i].image = starRateImage(index: i, rate: rate)
+        for (i, imageView) in starRateImageView.enumerated() {
+            imageView.image = starRateImage(index: i, rate: rate)
         }
     }
     

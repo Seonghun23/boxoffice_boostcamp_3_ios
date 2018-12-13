@@ -39,6 +39,9 @@ struct MovieInfo: Decodable {
     var collectionViewRateString: String {
         return String(format: "%d", reservationGrade) + "위(" + String(format: "%.2f", userRating) + ") / " + String(format: "%.1f", reservationRate) + "%"
     }
+    var gradeType: Grade {
+        return Grade(rawValue: String(grade)) ?? .all
+    }
     
     enum CodingKeys: String, CodingKey {
         case title, grade, date, thumb, id

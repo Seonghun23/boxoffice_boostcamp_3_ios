@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieListCollectionViewController: UIViewController, ImageUtilityProtocol {
+class MovieListCollectionViewController: UIViewController, ImageAssetsNameProtocol {
     // MARK:- Outlet
     @IBOutlet weak var MovieListCollectionView: UICollectionView!
     

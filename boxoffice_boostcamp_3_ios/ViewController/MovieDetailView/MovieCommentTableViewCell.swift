@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieCommentTableViewCell: UITableViewCell, ImageUtilityProtocol {
+class MovieCommentTableViewCell: UITableViewCell, ImageAssetsNameProtocol {
     // MARK:- Outlet
     @IBOutlet weak var writerLabel: UILabel!
     @IBOutlet var starRateImageView: [UIImageView]!
@@ -38,8 +38,8 @@ class MovieCommentTableViewCell: UITableViewCell, ImageUtilityProtocol {
     
     // MARK:- Set Star Rate Image
     private func setStarRateImage(rate: Double) {
-        for i in starRateImageView.indices {
-            starRateImageView[i].image = starRateImage(index: i, rate: rate)
+        for (i, imageView) in starRateImageView.enumerated() {
+            imageView.image = starRateImage(index: i, rate: rate)
         }
     }
     

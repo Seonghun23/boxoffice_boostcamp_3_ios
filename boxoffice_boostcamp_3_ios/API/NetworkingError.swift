@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK:- Networking Error Class
 class NetworkingError {
     public func responseError(domain: String = "", code: Int = 404) -> Error {
         return NSError(domain: domain, code: code, userInfo: ["Message":"The Data couldn't read"])

@@ -43,6 +43,9 @@ struct MovieDetail: Decodable {
         
         return decimalNum
     }
+    var gradeType: Grade {
+        return Grade(rawValue: String(grade)) ?? .all
+    }
     
     enum CodingKeys: String, CodingKey {
         case audience, actor, duration, director, synopsis, genre, grade, image, title, date, id
