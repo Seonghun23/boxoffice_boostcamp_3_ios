@@ -18,7 +18,7 @@ class MovieThumbImageViewController: UIViewController {
         super.viewDidLoad()
         
         guard let image = thumbImage else {
-            dismiss(animated: true, completion: { print("Fail to Display Poster Image") }) 
+            dismiss(animated: true, completion: { print("Fail to Display Thumb Image") }) 
             return
         }
 

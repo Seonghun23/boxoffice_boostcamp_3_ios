@@ -47,7 +47,7 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageAssetsNameProtocol, View
     
     private func initializeCell(info: MovieDetail?) {
         fetchMovieThumbImage(url: info?.image)
-        setGradeView(grade: info?.gradeType, view: gradeView)
+        setGradeView(grade: info?.gradeType, view: gradeView) // Set Label to Subview with Tag 1000
         rate = info?.userRating ?? 0.0
         titleLabel.text = info?.title
         dateLabel.text = info?.releaseDate

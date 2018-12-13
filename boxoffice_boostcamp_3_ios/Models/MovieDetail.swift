@@ -25,15 +25,22 @@ struct MovieDetail: Decodable {
     let date: String
     let id: String
     
+    // MARK:- Return Release Date String
     var releaseDate: String {
         return date + "개봉"
     }
+    
+    // MARK:- Return Genre and Duration String
     var genreAndDuration: String {
         return genre + "/" + String(format: "%d", duration) + "분"
     }
+    
+    // MARK:- Reservation Grade and Rate String
     var reservation: String {
         return String(format: "%d", reservationGrade) + "위 " + String(format: "%.1f", reservationRate) + "%"
     }
+    
+    // MARK:- Audience Number String
     var audienceNumber: String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -43,10 +50,13 @@ struct MovieDetail: Decodable {
         
         return decimalNum
     }
+    
+    // MARK:- Return Grade Type
     var gradeType: Grade {
         return Grade(rawValue: String(grade)) ?? .all
     }
     
+    // MARK:- Coding Keys
     enum CodingKeys: String, CodingKey {
         case audience, actor, duration, director, synopsis, genre, grade, image, title, date, id
         case reservationGrade = "reservation_grade"

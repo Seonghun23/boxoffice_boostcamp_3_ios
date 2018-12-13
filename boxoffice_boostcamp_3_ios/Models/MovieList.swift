@@ -13,6 +13,7 @@ struct MovieList: Decodable {
     let orderType: Int
     let movies: [MovieInfo]
     
+    // MARK:- Coding Keys
     enum CodingKeys: String, CodingKey {
         case movies
         case orderType = "order_type"
@@ -30,19 +31,27 @@ struct MovieInfo: Decodable {
     let thumb: String
     let id: String
     
+    // MARK:- Return User Rating, Reservation Grade And Rate String for Table View
     var tableViewRateString: String {
         return "평점 : " + String(format: "%.2f", userRating) + " 예매순위 : " + String(format: "%d", reservationGrade) + " 예매율 : " + String(format: "%.1f", reservationRate)
     }
+    
+    // MARK:- Return Date String for Table View
     var tableViewDateString: String {
         return "개봉일 : " + date
     }
+    
+    // MARK:- Return User Rating, Reservation Grade And Rate String for Collection View
     var collectionViewRateString: String {
         return String(format: "%d", reservationGrade) + "위(" + String(format: "%.2f", userRating) + ") / " + String(format: "%.1f", reservationRate) + "%"
     }
+    
+    // MARK:- Return Grade Type
     var gradeType: Grade {
         return Grade(rawValue: String(grade)) ?? .all
     }
     
+    // MARK:- Coding Keys
     enum CodingKeys: String, CodingKey {
         case title, grade, date, thumb, id
         case reservationGrade = "reservation_grade"

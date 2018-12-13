@@ -63,7 +63,7 @@ class MovieAPI {
         dataTask.resume()
     }
     
-    // MARK:- Request Movie Detail Info
+    // MARK:- Request Movie Detail Information
     final func requestMovieDetail(movieId: String, completion: @escaping(MovieDetail?, Error?) -> Void) {
         let urlString = baseURL + url.detail + parameters.movieId + movieId
         guard let url = URL(string: urlString) else {
@@ -136,7 +136,7 @@ class MovieAPI {
     }
 }
 
-// MARK:- SortType Enum
+// MARK:- Sort Type Enum
 enum SortType: Int {
     case reservation = 0
     case curation = 1

@@ -26,7 +26,7 @@ class MovieListCollectionViewCell: UICollectionViewCell, ImageAssetsNameProtocol
 
     // MARK:- Initialize
     private func initializeCell(info: MovieInfo?) {
-        setGradeView(grade: info?.gradeType, view: gradeView)
+        setGradeView(grade: info?.gradeType, view: gradeView) // Set Label to Subview with Tag 1000
         titleLabel?.text = info?.title
         rateLabel?.text = info?.collectionViewRateString
         dateLabel?.text = info?.date

@@ -32,9 +32,7 @@ extension ViewLayoutUtilityProtocol {
             let label = gradeLabel(grade)
             
             gradeView.addSubview(label)
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.centerYAnchor.constraint(equalTo: gradeView.centerYAnchor).isActive = true
-            label.centerXAnchor.constraint(equalTo: gradeView.centerXAnchor).isActive = true
+            gradeLabelLayout(label)
         }
     }
     
@@ -72,6 +70,17 @@ extension ViewLayoutUtilityProtocol {
         label.tag = 1000
         
         return label
+    }
+    
+    // MARK:- Set Grade Label Layout
+    private func gradeLabelLayout(_ label: UILabel) {
+        guard let superview = label.superview else {
+            print("There is No UIView for Grade Label")
+            return
+        }
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.centerYAnchor.constraint(equalTo: superview.centerYAnchor).isActive = true
+        label.centerXAnchor.constraint(equalTo: superview.centerXAnchor).isActive = true
     }
 }
 
