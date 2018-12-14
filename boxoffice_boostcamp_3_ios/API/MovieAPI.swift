@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MovieAPI {
+class MovieAPI: NetworkingErrorProtocol {
     // MARK:- URL List
     private let baseURL = "http://connect-boxoffice.run.goorm.io"
     private let url = (list:"/movies",
@@ -22,9 +22,6 @@ class MovieAPI {
     
     // MARK:- Sort Type
     static var sortType: SortType = .reservation
-    
-    // MARK:- Networking Error Class
-    private let networkingError = NetworkingError()
     
     // MARK:- Request Movie List
     final func requestMovieList(sort: SortType, completion: @escaping (MovieList?, Error?)-> Void) {
@@ -44,17 +41,17 @@ class MovieAPI {
                 return
             }
             if let response = response as? HTTPURLResponse, response.statusCode != 200 {
-                completion(nil, self.networkingError.responseError(domain: urlString, code: response.statusCode))
+                completion(nil, self.responseError(domain: urlString, code: response.statusCode))
                 return
             }
             guard let data = data else {
-                completion(nil, self.networkingError.responseError(domain: urlString, code: 204))
+                completion(nil, self.responseError(domain: urlString, code: 204))
                 return
             }
             
             do {
                 let result = try JSONDecoder().decode(MovieList.self, from: data)
-                MovieAPI.sortType = SortType.init(rawValue: result.orderType) ?? .reservation
+                MovieAPI.sortType = result.sortType
                 completion(result, nil)
             } catch let error {
                 completion(nil, error)
@@ -81,11 +78,11 @@ class MovieAPI {
                 return
             }
             if let response = response as? HTTPURLResponse, response.statusCode != 200 {
-                completion(nil, self.networkingError.responseError(domain: urlString, code: response.statusCode))
+                completion(nil, self.responseError(domain: urlString, code: response.statusCode))
                 return
             }
             guard let data = data else {
-                completion(nil, self.networkingError.responseError(domain: urlString, code: 204))
+                completion(nil, self.responseError(domain: urlString, code: 204))
                 return
             }
             
@@ -117,11 +114,11 @@ class MovieAPI {
                 return
             }
             if let response = response as? HTTPURLResponse, response.statusCode != 200 {
-                completion(nil, self.networkingError.responseError(domain: urlString, code: response.statusCode))
+                completion(nil, self.responseError(domain: urlString, code: response.statusCode))
                 return
             }
             guard let data = data else {
-                completion(nil, self.networkingError.responseError(domain: urlString, code: 204))
+                completion(nil, self.responseError(domain: urlString, code: 204))
                 return
             }
             

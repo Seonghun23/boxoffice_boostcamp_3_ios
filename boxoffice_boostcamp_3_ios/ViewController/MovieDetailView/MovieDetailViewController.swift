@@ -93,9 +93,10 @@ class MovieDetailViewController: UIViewController, ImageAssetsNameProtocol {
         alertController.addAction(cancelAction)
         
         DispatchQueue.main.async {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            self.refreshControl.endRefreshing()
-            self.present(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true) {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.refreshControl.endRefreshing()
+            }
         }
     }
 }

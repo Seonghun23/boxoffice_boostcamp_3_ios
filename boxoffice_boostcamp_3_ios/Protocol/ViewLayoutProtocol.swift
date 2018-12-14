@@ -8,12 +8,12 @@
 
 import UIKit
 
-// MARK:- View Layout Utility Protocol
-protocol ViewLayoutUtilityProtocol {
+// MARK:- View Layout Protocol
+protocol ViewLayoutProtocol {
     func setGradeView(grade: Grade?, view gradeView: UIView)
 }
 
-extension ViewLayoutUtilityProtocol {
+extension ViewLayoutProtocol {
     // MARK:- Set Grade View Layout
     public func setGradeView(grade: Grade?, view gradeView: UIView) {
         guard let grade = grade else {

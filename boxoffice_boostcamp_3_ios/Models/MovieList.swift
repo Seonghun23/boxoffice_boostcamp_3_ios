@@ -13,6 +13,11 @@ struct MovieList: Decodable {
     let orderType: Int
     let movies: [MovieInfo]
     
+    // MARK:- Return Sort Type
+    var sortType: SortType {
+        return SortType(rawValue: orderType) ?? .reservation
+    }
+    
     // MARK:- Coding Keys
     enum CodingKeys: String, CodingKey {
         case movies

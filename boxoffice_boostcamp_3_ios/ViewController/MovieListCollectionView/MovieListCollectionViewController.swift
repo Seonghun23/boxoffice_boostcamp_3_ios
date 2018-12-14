@@ -90,7 +90,7 @@ class MovieListCollectionViewController: UIViewController, ImageAssetsNameProtoc
                 self.fetchMovieListThumbImage(movies: movieList.movies)
             }
             DispatchQueue.main.async {
-                self.sortType = SortType.init(rawValue: movieList.orderType) ?? .reservation
+                self.sortType = movieList.sortType
                 self.MovieListCollectionView.reloadData()
                 self.refreshControl.endRefreshing()
             }
@@ -159,9 +159,10 @@ class MovieListCollectionViewController: UIViewController, ImageAssetsNameProtoc
         alertController.addAction(cancelAction)
         
         DispatchQueue.main.async {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            self.refreshControl.endRefreshing()
-            self.present(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true) {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.refreshControl.endRefreshing()
+            }
         }
     }
     

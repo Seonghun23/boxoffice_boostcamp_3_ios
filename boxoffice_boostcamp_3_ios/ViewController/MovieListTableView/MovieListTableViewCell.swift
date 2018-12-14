@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieListTableViewCell: UITableViewCell, ImageAssetsNameProtocol, ViewLayoutUtilityProtocol {
+class MovieListTableViewCell: UITableViewCell, ImageAssetsNameProtocol, ViewLayoutProtocol {
     // MARK:- Outlet
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var gradeImageView: UIImageView!
