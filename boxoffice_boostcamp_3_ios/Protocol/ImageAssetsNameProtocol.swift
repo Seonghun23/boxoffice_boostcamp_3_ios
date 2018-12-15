@@ -45,7 +45,7 @@ extension ImageAssetsNameProtocol {
      ```
      let url: String = "https://urladdress"
      
-     fetchThumbImage(url: url, completion: { (thumbImage: UIImage) in
+     fetchThumbImage(url: url, completion: { (thumbImage: UIImage?) in
         if let image = thumbImage {
             // Success Download Image
         } else {

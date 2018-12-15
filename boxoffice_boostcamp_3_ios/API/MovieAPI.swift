@@ -35,7 +35,7 @@ class MovieAPI: NetworkingErrorProtocol {
      ```
      let sort: SortType = .reservation
      
-     requestMovieList(sort: sort, completion: { (movieList: MovieList, error: Error) in
+     requestMovieList(sort: sort, completion: { (movieList: MovieList?, error: Error?) in
         if let movieList = movieList {
             // Success fetch Movie List
         } else {
@@ -93,7 +93,7 @@ class MovieAPI: NetworkingErrorProtocol {
      ```
      let movieId: String = "Movie Id"
      
-     requestMovieDetail(movieId: movieId, completion: { (movieDetail: MovieDetail, error: Error) in
+     requestMovieDetail(movieId: movieId, completion: { (movieDetail: MovieDetail?, error: Error?) in
         if let movieDetail = movieDetail {
             // Success fetch Movie Detail Information
         } else {
@@ -150,7 +150,7 @@ class MovieAPI: NetworkingErrorProtocol {
      ```
      let movieId: String = "Movie Id"
      
-     requestMovieComments(movieId: movieId, completion: { (comments: Comments, error: Error) in
+     requestMovieComments(movieId: movieId, completion: { (comments: Comments?, error: Error?) in
         if let comments = comments {
             // Success fetch Comment List
         } else {
