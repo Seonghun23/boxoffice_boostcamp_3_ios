@@ -21,9 +21,33 @@ class MovieAPI: NetworkingErrorProtocol {
                               )
     
     // MARK:- Sort Type
+    /**
+     Static Movie List Sort Type Property.
+     */
     static var sortType: SortType = .reservation
     
     // MARK:- Request Movie List
+    /**
+     Request Movie List from goorm server.
+     
+     This Method request Movie List with Asynchronous. After finish Networking, call Completion. If fail to Networking, you can check Error. When Networking is Success, Error is nil.
+     
+     ```
+     let sort: SortType = .reservation
+     
+     requestMovieList(sort: sort, completion: { (movieList: MovieList, error: Error) in
+        if let movieList = movieList {
+            // Success fetch Movie List
+        } else {
+            // Fail fetch Movie List
+        }
+     })
+     ```
+     
+     - parameters:
+        - sort: Sort Type for Movie List.
+        - completion: It's going to work after finish Networking. If fail to Networking, MovieList is nil.
+     */
     final func requestMovieList(sort: SortType, completion: @escaping (MovieList?, Error?)-> Void) {
         let urlString = baseURL + url.list + parameters.orderType + String(sort.rawValue)
         guard let url = URL(string: urlString) else {
@@ -61,6 +85,27 @@ class MovieAPI: NetworkingErrorProtocol {
     }
     
     // MARK:- Request Movie Detail Information
+    /**
+     Request Movie Detail Information from goorm server.
+     
+     This Method request Movie Detail Information with Asynchronous. After finish Networking, call Completion. If fail to Networking, you can check Error. When Networking is Success, Error is nil.
+     
+     ```
+     let movieId: String = "Movie Id"
+     
+     requestMovieDetail(movieId: movieId, completion: { (movieDetail: MovieDetail, error: Error) in
+        if let movieDetail = movieDetail {
+            // Success fetch Movie Detail Information
+        } else {
+            // Fail fetch Movie Detail Information
+        }
+     })
+     ```
+     
+     - parameters:
+        - movieId: Movie Id for fetch Detail Information.
+        - completion: It's going to work after finish Networking. If fail to Networking, MovieDetail is nil.
+     */
     final func requestMovieDetail(movieId: String, completion: @escaping(MovieDetail?, Error?) -> Void) {
         let urlString = baseURL + url.detail + parameters.movieId + movieId
         guard let url = URL(string: urlString) else {
@@ -97,6 +142,27 @@ class MovieAPI: NetworkingErrorProtocol {
     }
     
     // MARK:- Request Movie Comments
+    /**
+     Request Movie Comment List from goorm server.
+     
+     This Method request Movie Comment List with Asynchronous. After finish download Movie List, call Completion. If fail to Networking, you can check Error. When Networking is Success, Error is nil.
+     
+     ```
+     let movieId: String = "Movie Id"
+     
+     requestMovieComments(movieId: movieId, completion: { (comments: Comments, error: Error) in
+        if let comments = comments {
+            // Success fetch Comment List
+        } else {
+            // Fail fetch Comment List
+        }
+     })
+     ```
+    
+     - parameters:
+        - movieId: Movie Id for fetch Comment List.
+        - completion: It's going to work after finish Networking. If fail to Networking, Comments is nil.
+     */
     final func requestMovieComments(movieId: String, completion: @escaping (Comments?, Error?) -> Void) {
         let urlString = baseURL + url.comments + parameters.commentsMovieId + movieId
         guard let url = URL(string: urlString) else {

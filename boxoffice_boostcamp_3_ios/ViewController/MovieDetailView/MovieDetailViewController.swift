@@ -8,14 +8,13 @@
 
 import UIKit
 
-class MovieDetailViewController: UIViewController, ImageAssetsNameProtocol {
+class MovieDetailViewController: MovieViewController, ImageAssetsNameProtocol {
     // MARK:- Outlet
     @IBOutlet weak var MovieDetailTableView: UITableView!
     
     // MARK:- Properties
     private let cellIdentifier = ["OverviewCell", "SynopsisCell", "StaffCell", "CommentCell"]
     private let movieAPI = MovieAPI()
-    private var refreshControl = UIRefreshControl()
     private var movieDetail: MovieDetail?
     private var comments = [Comment]()
     public var movieId = ""
@@ -35,13 +34,14 @@ class MovieDetailViewController: UIViewController, ImageAssetsNameProtocol {
         MovieDetailTableView.delegate = self
         MovieDetailTableView.dataSource = self
         MovieDetailTableView.allowsSelection = false
-        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         MovieDetailTableView.refreshControl = refreshControl
         MovieDetailTableView.rowHeight = UITableView.automaticDimension
     }
     
     // MARK:- Refresh Method
-    @objc private func refresh(_ sender: UIRefreshControl) {
+    @objc override func refresh(_ sender: UIRefreshControl) {
+        super.refresh(sender)
+        
         fetchMovieDetail()
         fetchMovieCommentList()
     }
@@ -82,22 +82,6 @@ class MovieDetailViewController: UIViewController, ImageAssetsNameProtocol {
         guard movieDetail != nil, !comments.isEmpty else { return }
         self.refreshControl.endRefreshing()
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    }
-    
-    // MARK:- Alert Fail to Networking
-    private func showFailToNetworkingAlertController(error: Error?) {
-        print(error?.localizedDescription ?? "Fail To Networing with No Error Message")
-        
-        let alertController = UIAlertController(title: nil, message: "영화목록을 가져오는데 실패했습니다.\n인터넷 연결을 확인해 주세요.", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true) {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                self.refreshControl.endRefreshing()
-            }
-        }
     }
 }
 

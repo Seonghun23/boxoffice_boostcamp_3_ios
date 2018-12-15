@@ -10,11 +10,22 @@ import Foundation
 
 // MARK:- Networking Error Protocol
 protocol NetworkingErrorProtocol {
-    func responseError(domain: String, code: Int) -> Error
+    func responseError(domain: String, code: Int, message: String) -> Error
 }
 
 extension NetworkingErrorProtocol {
-    public func responseError(domain: String = "", code: Int = 404) -> Error {
-        return NSError(domain: domain, code: code, userInfo: ["Message":"The Data couldn't read"])
+    // MARK:- Return Custom Networking Response Error
+    /**
+     Return Custom Networking Error.
+     
+     This Method return Custom Error to Networking. You can get Error with Custom URL and Code.
+     
+     - parameters:
+         - domain: URL Address to Error. Default is "".
+         - code: Enter Networking Error Code. Default is 404.
+         - message: Enter Custom Error Message. Default is "The Data couldn't read".
+     */
+    public func responseError(domain: String = "", code: Int = 404, message: String = "The Data couldn't read") -> Error {
+        return NSError(domain: domain, code: code, userInfo: ["Message":message])
     }
 }

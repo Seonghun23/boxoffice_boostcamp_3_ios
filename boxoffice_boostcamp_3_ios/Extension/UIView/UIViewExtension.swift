@@ -8,8 +8,13 @@
 
 import UIKit
 
-// MARK:- Remove All SubView
 extension UIView {
+    // MARK:- Remove All SubView
+    /**
+     Remove All Subview to Self.
+     
+     This Method remove all Subview. If you want to remove specific View, Don't Call this Method.
+     */
     func removeAllSubview() {
         for view in subviews {
             view.removeFromSuperview()

@@ -15,6 +15,18 @@ protocol ViewLayoutProtocol {
 
 extension ViewLayoutProtocol {
     // MARK:- Set Grade View Layout
+    /**
+     Change View to Grade View.
+     
+     This Method change layout, background color and text about UIView.
+     
+     ## Use Costom UILable
+     If you want to use Custom UIlabel to view, add UILabel to Subview with Tag Number 1000. And then, Just text will be changed. otherwise, All Subview will deleted and Add new Default UILabel.
+     
+     - parameters:
+        - grade: Grade to Movie.
+        - view: It's what you want to change to Grade View.
+     */
     public func setGradeView(grade: Grade?, view gradeView: UIView) {
         guard let grade = grade else {
             clearGradeView(gradeView)
@@ -35,6 +47,7 @@ extension ViewLayoutProtocol {
             gradeLabelLayout(label)
         }
     }
+    
     
     // MARK:- Return Grade View Coloer
     private func gradeViewColor(_ grade: Grade) -> UIColor {

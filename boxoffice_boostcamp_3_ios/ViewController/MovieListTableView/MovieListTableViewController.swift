@@ -8,14 +8,13 @@
 
 import UIKit
 
-class MovieListTableViewController: UIViewController, ImageAssetsNameProtocol {
+class MovieListTableViewController: MovieViewController, ImageAssetsNameProtocol {
     // MARK:- Outlet
     @IBOutlet weak var MovieListTableView: UITableView!
     
     // MARK:- Properties
     private let cellIdentifier = "MovieListTableViewCell"
     private let movieAPI = MovieAPI()
-    private var refreshControl = UIRefreshControl()
     private var movies = [MovieInfo]()
     private var thumbImages = [Int:UIImage?]()
     private var sortType = MovieAPI.sortType {
@@ -45,18 +44,21 @@ class MovieListTableViewController: UIViewController, ImageAssetsNameProtocol {
         
         if sortType != MovieAPI.sortType {
             fetchMovieList(sort: MovieAPI.sortType)
+        } else {
+            sortType = MovieAPI.sortType
         }
     }
     
     private func initializeTableView() {
         MovieListTableView.delegate = self
         MovieListTableView.dataSource = self
-        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         MovieListTableView.refreshControl = refreshControl
     }
     
     // MARK:- Refresh Method
-    @objc private func refresh(_ sender: UIRefreshControl) {
+    @objc override func refresh(_ sender: UIRefreshControl) {
+        super.refresh(sender)
+        
         fetchMovieList(sort: MovieAPI.sortType)
     }
 
@@ -131,22 +133,6 @@ class MovieListTableViewController: UIViewController, ImageAssetsNameProtocol {
     private func requestSortedMovieList(sort: SortType) {
         if sort != sortType {
             fetchMovieList(sort: sort)
-        }
-    }
-    
-    // MARK:- Show Networking Fail Alert
-    private func showFailToNetworkingAlertController(error: Error?) {
-        print(error?.localizedDescription ?? "Fail To Networing with No Error Message")
-        
-        let alertController = UIAlertController(title: nil, message: "영화목록을 가져오는데 실패했습니다.\n인터넷 연결을 확인해 주세요.", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true) {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                self.refreshControl.endRefreshing()
-            }
         }
     }
     
