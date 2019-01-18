@@ -122,7 +122,7 @@ extension MovieDetailViewController: UITableViewDataSource {
         case 3:
             return movieCommentTableViewCell(tableView: tableView, indexPath: indexPath)
         default:
-            fatalError("Request Wrong Section Cell")
+            return .init()
         }
     }
     

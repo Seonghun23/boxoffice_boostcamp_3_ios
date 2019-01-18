@@ -10,7 +10,7 @@ import UIKit
 
 class MovieListCollectionViewController: MovieViewController, Fetchable {
     // MARK:- Outlet
-    @IBOutlet weak var MovieListCollectionView: UICollectionView!
+    @IBOutlet weak var MovieListCollectionView: UICollectionView? // MainTabBarController에서 델리게이트로 데이터를 요청하는 메서드(fetchMovieList)를 보낼때 리로드 부분에서 아직 스토리보드의 UI 가 로드되지 않아 ! 로 해당 아웃렛을 설정시 크래쉬가 발생하여 ? 로 만들어 놓았습니다.
     
     // MARK:- Properties
     private let cellIdentifier = "MovieListCollectionViewCell"
@@ -25,10 +25,10 @@ class MovieListCollectionViewController: MovieViewController, Fetchable {
     }
     
     private func initializeColletionView() {
-        MovieListCollectionView.delegate = self
-        MovieListCollectionView.dataSource = self
-        MovieListCollectionView.collectionViewLayout = collectionViewLayout()
-        MovieListCollectionView.refreshControl = refreshControl
+        MovieListCollectionView?.delegate = self
+        MovieListCollectionView?.dataSource = self
+        MovieListCollectionView?.collectionViewLayout = collectionViewLayout()
+        MovieListCollectionView?.refreshControl = refreshControl
     }
     
     // MARK:- CollectionView Layout 
@@ -56,7 +56,7 @@ class MovieListCollectionViewController: MovieViewController, Fetchable {
     // MARK:- Fetch Movie List
     func fetchMovieList(sort: SortType) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        guard let request = MovieAPI.shared.makeRequest(url: .list, param: .orderType, "", .reservation) else {
+        guard let request = MovieAPI.shared.makeRequest(url: .list, param: .orderType, "", sort) else {
             return
         }
         
@@ -72,7 +72,7 @@ class MovieListCollectionViewController: MovieViewController, Fetchable {
             }
             DispatchQueue.main.async {
                 self.sortType = movieList.sortType
-                self.MovieListCollectionView.reloadData()
+                self.MovieListCollectionView?.reloadData()
                 self.refreshControl.endRefreshing()
             }
         }
@@ -87,7 +87,7 @@ class MovieListCollectionViewController: MovieViewController, Fetchable {
                 DispatchQueue.main.async {
                     self.thumbImages[i] = thumb
                     let index = IndexPath(item: i, section: 0)
-                    self.MovieListCollectionView.reloadItems(at: [index])
+                    self.MovieListCollectionView?.reloadItems(at: [index])
                     
                     if movies.count == self.thumbImages.count {
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false

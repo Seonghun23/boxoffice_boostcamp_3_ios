@@ -68,7 +68,7 @@ class MovieListTableViewController: MovieViewController, Fetchable {
     func fetchMovieList(sort: SortType) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        guard let request = MovieAPI.shared.makeRequest(url: .list, param: .orderType, "", .reservation) else {
+        guard let request = MovieAPI.shared.makeRequest(url: .list, param: .orderType, "", sort) else {
             return
         }
         // request.httpMethod = "GET" // URLRequest는 default로 get method를 사용하는 것으로 알고있습니다.
