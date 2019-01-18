@@ -10,13 +10,13 @@ import UIKit
 /*
  로테이션시 헤더뷰의 starImageView가 짤리는 버그가 있습니다. 해당 부분에대한 처리가 필요할 것 같습니다.
  */
-class MovieDetailViewController: MovieViewController, ImageAssetsNameProtocol {
+class MovieDetailViewController: MovieViewController, Fetchable {
     // MARK:- Outlet
     @IBOutlet weak var MovieDetailTableView: UITableView!
     
     // MARK:- Properties
     private let cellIdentifier = ["OverviewCell", "SynopsisCell", "StaffCell", "CommentCell"]
-    private let movieAPI = MovieAPI()
+    //private let movieAPI = MovieAPI()
     private var movieDetail: MovieDetail?
     private var comments = [Comment]()
     public var movieId = ""
@@ -43,7 +43,6 @@ class MovieDetailViewController: MovieViewController, ImageAssetsNameProtocol {
     // MARK:- Refresh Method
     @objc override func refresh(_ sender: UIRefreshControl) {
         super.refresh(sender)
-        
         fetchMovieDetail()
         fetchMovieCommentList()
     }
@@ -51,8 +50,10 @@ class MovieDetailViewController: MovieViewController, ImageAssetsNameProtocol {
     // MARK:- Fetch Movie Detail Information
     private func fetchMovieDetail() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        
-        movieAPI.requestMovieDetail(movieId: movieId) { (movieDetail, error) in
+        guard let request = MovieAPI.shared.makeRequest(url: .detail, param: .movieId, movieId) else {
+            return
+        }
+        MovieAPI.shared.requestMovieData(request: request, with: MovieDetail.self) { (movieDetail, error) in
             guard let movieDetail = movieDetail else {
                 self.showFailToNetworkingAlertController(error: error)
                 return
@@ -67,7 +68,10 @@ class MovieDetailViewController: MovieViewController, ImageAssetsNameProtocol {
     
     // MARK:- Fetdch Movie Comment List
     private func fetchMovieCommentList() {
-        movieAPI.requestMovieComments(movieId: movieId) { (comments, error) in
+        guard let request = MovieAPI.shared.makeRequest(url: .comments, param: .commentsMovieId, movieId) else {
+            return
+        }
+        MovieAPI.shared.requestMovieData(request: request, with: Comments.self) { (comments, error) in
             guard let comments = comments else {
                 self.showFailToNetworkingAlertController(error: error)
                 return
@@ -124,7 +128,7 @@ extension MovieDetailViewController: UITableViewDataSource {
     
     private func movieOverviewTableViewCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier[0], for: indexPath) as? MovieOverviewTableViewCell else {
-            fatalError("Fail to Create Movie Overview Cell")
+            return .init()
         }
         cell.movieInfo = movieDetail
         cell.delegate = self
@@ -134,7 +138,7 @@ extension MovieDetailViewController: UITableViewDataSource {
     
     private func movieSynopsisTableViewCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier[1], for: indexPath) as? MovieSynopsisTableViewCell else {
-            fatalError("Fail to Create Movie Synopsis Cell")
+            return .init()
         }
         cell.movieInfo = movieDetail
 
@@ -143,7 +147,7 @@ extension MovieDetailViewController: UITableViewDataSource {
     
     private func movieStaffTableViewCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier[2], for: indexPath) as? MovieStaffTableViewCell else {
-            fatalError("Fail to Create Movie Staff Cell")
+            return .init()
         }
         cell.movieInfo = movieDetail
         
@@ -152,8 +156,7 @@ extension MovieDetailViewController: UITableViewDataSource {
     
     private func movieCommentTableViewCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier[3], for: indexPath) as? MovieCommentTableViewCell else {
-            //앞서 리뷰한 것과 같이 return .init으로 하시면 좋을것 같습니다
-            fatalError("Fail to Create Movie Comment Cell")
+            return .init()
         }
         cell.comment = comments[indexPath.row]
         
@@ -191,7 +194,7 @@ extension MovieDetailViewController: UITableViewDelegate {
 }
 
 // MARK:- Show Large Thumb Image
-extension MovieDetailViewController: HandleShowLargeThumbImageProtocol {
+extension MovieDetailViewController: HandleShowLargeThumbImageDelegate {
     func showLargeThumbImage(_ image: UIImage) {
         guard let VC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MoviePosterViewController") as? MovieThumbImageViewController else {
             print("Fail to Create Movie Thumb ViewController")

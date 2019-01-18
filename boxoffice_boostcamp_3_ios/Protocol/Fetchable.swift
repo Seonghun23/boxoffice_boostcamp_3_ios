@@ -15,12 +15,12 @@ import UIKit
  Protocols that describe a capability should be named using the suffixes able, ible, or ing (e.g. Equatable, ProgressReporting). */
 
 // MARK:- Image Assets Name Protocol
-protocol ImageAssetsNameProtocol {
-    func starRateImage(index: Int, rate: Double) -> UIImage?
+protocol Fetchable {
+    func selectStarRateImage(index: Int, rate: Double) -> UIImage? //동사형으로 메서드 이름을 바꾸었습니다.
     func fetchThumbImage(url: String, completiopn: @escaping(UIImage?) -> Void)
 }
 
-extension ImageAssetsNameProtocol {
+extension Fetchable {
     // MARK:- Return Star Rating Image
     /**
      Return UIImage for Five Start Rating.
@@ -31,7 +31,7 @@ extension ImageAssetsNameProtocol {
         - index: Index to Star Rating Image.
         - rate: Target Rate to Star Rating.
      */
-    public func starRateImage(index: Int, rate: Double) -> UIImage? {
+    public func selectStarRateImage(index: Int, rate: Double) -> UIImage? {
         switch true {
         case rate >= (Double(index) * 2.0) + 2.0:
             return UIImage(named: "ic_star_large_full")

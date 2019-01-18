@@ -15,15 +15,15 @@ struct Comments: Decodable {
 
 // MARK:- Comment Data Model for Comment List
 struct Comment: Decodable {
-    let timestamp: Double
-    let contents: String
-    let writer: String
-    let movieId: String
-    let rating: Double
+    let timestamp: Double?
+    let contents: String?
+    let writer: String?
+    let movieId: String?
+    let rating: Double?
     
     // MARK:- Return Date and Time String
     var dateAndTime: String {
-        let date = Date(timeIntervalSince1970: timestamp)
+        let date = Date(timeIntervalSince1970: timestamp ?? 0)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
         

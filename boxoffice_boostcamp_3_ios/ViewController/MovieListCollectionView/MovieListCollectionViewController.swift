@@ -8,45 +8,20 @@
 
 import UIKit
 
-class MovieListCollectionViewController: MovieViewController, ImageAssetsNameProtocol {
+class MovieListCollectionViewController: MovieViewController, Fetchable {
     // MARK:- Outlet
     @IBOutlet weak var MovieListCollectionView: UICollectionView!
     
     // MARK:- Properties
     private let cellIdentifier = "MovieListCollectionViewCell"
-    private let movieAPI = MovieAPI()
+    //private let movieAPI = MovieAPI()
     private var movies = [MovieInfo]()
     private var thumbImages = [Int:UIImage?]()
-    private var sortType = MovieAPI.sortType {
-        didSet {
-            switch sortType {
-            case .reservation:
-                navigationItem.title = "예매율순"
-            case .curation:
-                navigationItem.title = "큐레이션"
-            case .date:
-                navigationItem.title = "개봉일순"
-            }
-        }
-    }
-    
     // MARK:- Initialize
     override func viewDidLoad() {
         super.viewDidLoad()
-
         initializeColletionView()
-        sortType = MovieAPI.sortType
-        fetchMovieList(sort: MovieAPI.sortType)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if sortType != MovieAPI.sortType {
-            fetchMovieList(sort: MovieAPI.sortType)
-        } else {
-            sortType = MovieAPI.sortType
-        }
+        fetchMovieList(sort: sortType)
     }
     
     private func initializeColletionView() {
@@ -75,14 +50,18 @@ class MovieListCollectionViewController: MovieViewController, ImageAssetsNamePro
     @objc override func refresh(_ sender: UIRefreshControl) {
         super.refresh(sender)
         
-        fetchMovieList(sort: MovieAPI.sortType)
+        fetchMovieList(sort: MovieAPI.shared.sortType)
     }
     
     // MARK:- Fetch Movie List
-    private func fetchMovieList(sort: SortType) {
+    func fetchMovieList(sort: SortType) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        guard let request = MovieAPI.shared.makeRequest(url: .list, param: .orderType, "", .reservation) else {
+            return
+        }
         
-        movieAPI.requestMovieList(sort: sort) { (movieList, error) in
+        
+        MovieAPI.shared.requestMovieData(request: request, with: MovieList.self) { (movieList, error) in
             guard let movieList = movieList else {
                 self.showFailToNetworkingAlertController(error: error)
                 return
@@ -121,35 +100,6 @@ class MovieListCollectionViewController: MovieViewController, ImageAssetsNamePro
     // MARK:- Touch Up Sort Button
     @IBAction func touchUpSortButton(_ sender: UIBarButtonItem) {
         showSortAlertController()
-    }
-    
-    // MARK:- Show Sort Action Sheet
-    private func showSortAlertController() {
-        let alertController = UIAlertController(title: "정렬방식 선택", message: "영화를 어떤 순서로 정렬할까요?", preferredStyle: .actionSheet)
-        
-        let reservationAction = UIAlertAction(title: "예매율", style: .default) { _ in
-            self.requestSortedMovieList(sort: .reservation)
-        }
-        let curationAction = UIAlertAction(title: "큐레이션", style: .default) { _ in
-            self.requestSortedMovieList(sort: .curation)
-        }
-        let dateAction = UIAlertAction(title: "개봉일", style: .default) { _ in
-            self.requestSortedMovieList(sort: .date)
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alertController.addAction(reservationAction)
-        alertController.addAction(curationAction)
-        alertController.addAction(dateAction)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    private func requestSortedMovieList(sort: SortType) {
-        if sort != sortType {
-            fetchMovieList(sort: sort)
-        }
     }
     
     // MARK: - Navigation

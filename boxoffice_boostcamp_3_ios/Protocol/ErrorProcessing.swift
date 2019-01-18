@@ -15,11 +15,11 @@
 import Foundation
 
 // MARK:- Networking Error Protocol
-protocol NetworkingErrorProtocol {
+protocol ErrorProcessing {
     func responseError(domain: String, code: Int, message: String) -> Error
 }
 
-extension NetworkingErrorProtocol {
+extension ErrorProcessing {
     // MARK:- Return Custom Networking Response Error
     /**
      Return Custom Networking Error.

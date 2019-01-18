@@ -15,11 +15,11 @@
 import UIKit
 
 // MARK:- View Layout Protocol
-protocol ViewLayoutProtocol {
+protocol GradeImageCaculating {
     func setGradeView(grade: Grade?, view gradeView: UIView)
 }
 
-extension ViewLayoutProtocol {
+extension GradeImageCaculating {
     // MARK:- Set Grade View Layout
     /**
      Change View to Grade View.

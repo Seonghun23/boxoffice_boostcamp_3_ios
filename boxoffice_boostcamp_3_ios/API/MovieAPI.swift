@@ -8,9 +8,21 @@
 
 import Foundation
 
-class MovieAPI: NetworkingErrorProtocol {
+class MovieAPI: ErrorProcessing {
     // MARK:- URL List
+    
+    static let shared = MovieAPI() //싱글턴 패턴을 이용해 보았습니다.
     private let baseURL = "http://connect-boxoffice.run.goorm.io"
+    enum Url {
+        case list
+        case detail
+        case comments
+    }
+    enum Parameters {
+        case orderType
+        case movieId
+        case commentsMovieId
+    }
     private let url = (list:"/movies",
                        detail:"/movie",
                        comments:"/comments"
@@ -19,12 +31,12 @@ class MovieAPI: NetworkingErrorProtocol {
                               movieId: "?id=",
                               commentsMovieId:"?movie_id="
                               )
-    
+    private init() {} // 외부에서 객체화 안되게끔 처리합니다.
     // MARK:- Sort Type
     /**
      Static Movie List Sort Type Property.
      */
-    static var sortType: SortType = .reservation
+    var sortType: SortType = .reservation
     
     // MARK:- Request Movie List
     /**
@@ -56,35 +68,52 @@ class MovieAPI: NetworkingErrorProtocol {
      MovieList 나 MovieDetail 둘중하나를 fetching하는 일을 나누신 것으로 보여집니다. 제너릭 기능을 사용하여 하나로 합쳐볼 수 있을 것 같습니다.
      */
     
-    
-    final func requestMovieList(sort: SortType, completion: @escaping (MovieList?, Error?)-> Void) {
-        let urlString = baseURL + url.list + parameters.orderType + String(sort.rawValue)
-        guard let url = URL(string: urlString) else {
-            print("Movie List URL is Wrong.")
-            return
+    func makeRequest(url: Url, param: Parameters, _ movieId: String = "", _ sortType: SortType = .reservation) -> URLRequest? {
+        
+        var urlString = baseURL
+        switch url {
+        case .list:
+            urlString.append("/movies")
+        case .detail:
+            urlString.append("/movie")
+        case .comments:
+            urlString.append("/comments")
+        }
+        switch param {
+        case .orderType:
+            urlString.append("?order_type=\(sortType.rawValue)")
+        case .movieId:
+            urlString.append("?id=\(movieId)")
+        case .commentsMovieId:
+            urlString.append("?movie_id=\(movieId)")
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET" // URLRequest는 default로 get method를 사용하는 것으로 알고있습니다.
+        guard let url = URL(string: urlString) else {
+            return nil
+        }
+        return URLRequest(url: url)
+    }
+    
+    final func requestMovieData<T: Decodable>(request: URLRequest, with decodeType: T.Type, completion: @escaping (T?, Error?)-> Void) {
         
-        let sesstion = URLSession(configuration: .default) //오타가 있습니다 <session>
-        let dataTask = sesstion.dataTask(with: request) { (data, response, error) in
+        
+        let session = URLSession(configuration: .default) //오타가 있습니다 <session>
+        let dataTask = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 completion(nil, error)
                 return
             }
             if let response = response as? HTTPURLResponse, response.statusCode != 200 {
-                completion(nil, self.responseError(domain: urlString, code: response.statusCode))
+                completion(nil, self.responseError(domain: request.url?.absoluteString ?? "", code: response.statusCode))
                 return
             }
             guard let data = data else {
-                completion(nil, self.responseError(domain: urlString, code: 204))
+                completion(nil, self.responseError(domain: request.url?.absoluteString ?? "", code: 204))
                 return
             }
-            
+            print("data is.. \(data)")
             do {
-                let result = try JSONDecoder().decode(MovieList.self, from: data)
-                MovieAPI.sortType = result.sortType
+                let result = try JSONDecoder().decode(decodeType, from: data)
                 completion(result, nil)
             } catch let error {
                 completion(nil, error)

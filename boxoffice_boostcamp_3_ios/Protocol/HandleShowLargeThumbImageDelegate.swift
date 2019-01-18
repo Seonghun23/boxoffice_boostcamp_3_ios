@@ -17,6 +17,6 @@ Protocols that describe a capability should be named using the suffixes able, ib
 
 
 // MARK:- Handle Show Large Thumb Image Protocol
-protocol HandleShowLargeThumbImageProtocol: class {
+protocol HandleShowLargeThumbImageDelegate: class {
     func showLargeThumbImage(_ image: UIImage)
 }

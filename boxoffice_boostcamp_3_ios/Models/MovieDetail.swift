@@ -10,34 +10,34 @@ import Foundation
 
 // MARK: - Movie Detail Infomation Data Model
 struct MovieDetail: Decodable {
-    let title: String
-    let duration: Int
-    let audience: Int
-    let actor: String
-    let director: String
-    let synopsis: String
-    let genre: String
-    let grade: Int
-    let image: String
-    let reservationGrade: Int
-    let reservationRate: Double
-    let userRating: Double
-    let date: String
-    let id: String
+    let title: String?
+    let duration: Int?
+    let audience: Int?
+    let actor: String?
+    let director: String?
+    let synopsis: String?
+    let genre: String?
+    let grade: Int?
+    let image: String?
+    let reservationGrade: Int?
+    let reservationRate: Double?
+    let userRating: Double?
+    let date: String?
+    let id: String?
     
     // MARK:- Return Release Date String
     var releaseDate: String {
-        return date + "개봉"
+        return date ?? "" + "개봉"
     }
     
     // MARK:- Return Genre and Duration String
     var genreAndDuration: String {
-        return genre + "/" + String(format: "%d", duration) + "분"
+        return genre ?? "" + "/" + String(format: "%d", duration ?? 0) + "분"
     }
     
     // MARK:- Reservation Grade and Rate String
     var reservation: String {
-        return String(format: "%d", reservationGrade) + "위 " + String(format: "%.1f", reservationRate) + "%"
+        return String(format: "%d", reservationGrade ?? 0) + "위 " + String(format: "%.1f", reservationRate ?? 0) + "%"
     }
     
     // MARK:- Audience Number String
@@ -45,7 +45,7 @@ struct MovieDetail: Decodable {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         
-        let nsNumber = NSNumber(value: audience)
+        let nsNumber = NSNumber(value: audience ?? 0)
         guard let decimalNum = numberFormatter.string(from: nsNumber) else { return "0" }
         
         return decimalNum
@@ -53,7 +53,7 @@ struct MovieDetail: Decodable {
     
     // MARK:- Return Grade Type
     var gradeType: Grade {
-        return Grade(rawValue: String(grade)) ?? .all
+        return Grade(rawValue: String(grade ?? 0)) ?? .all
     }
     
     // MARK:- Coding Keys
