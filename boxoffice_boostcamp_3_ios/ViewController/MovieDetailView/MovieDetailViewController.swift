@@ -7,7 +7,9 @@
 //
 
 import UIKit
-
+/*
+ 로테이션시 헤더뷰의 starImageView가 짤리는 버그가 있습니다. 해당 부분에대한 처리가 필요할 것 같습니다.
+ */
 class MovieDetailViewController: MovieViewController, ImageAssetsNameProtocol {
     // MARK:- Outlet
     @IBOutlet weak var MovieDetailTableView: UITableView!
@@ -150,6 +152,7 @@ extension MovieDetailViewController: UITableViewDataSource {
     
     private func movieCommentTableViewCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier[3], for: indexPath) as? MovieCommentTableViewCell else {
+            //앞서 리뷰한 것과 같이 return .init으로 하시면 좋을것 같습니다
             fatalError("Fail to Create Movie Comment Cell")
         }
         cell.comment = comments[indexPath.row]

@@ -48,6 +48,15 @@ class MovieAPI: NetworkingErrorProtocol {
         - sort: Sort Type for Movie List.
         - completion: It's going to work after finish Networking. If fail to Networking, MovieList is nil.
      */
+    
+    
+    
+    /*
+     requestMovieList 와 requestMovieDetail 는 사실상 같은 일을하는 메서드로
+     MovieList 나 MovieDetail 둘중하나를 fetching하는 일을 나누신 것으로 보여집니다. 제너릭 기능을 사용하여 하나로 합쳐볼 수 있을 것 같습니다.
+     */
+    
+    
     final func requestMovieList(sort: SortType, completion: @escaping (MovieList?, Error?)-> Void) {
         let urlString = baseURL + url.list + parameters.orderType + String(sort.rawValue)
         guard let url = URL(string: urlString) else {
@@ -56,9 +65,9 @@ class MovieAPI: NetworkingErrorProtocol {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = "GET" // URLRequest는 default로 get method를 사용하는 것으로 알고있습니다.
         
-        let sesstion = URLSession(configuration: .default)
+        let sesstion = URLSession(configuration: .default) //오타가 있습니다 <session>
         let dataTask = sesstion.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 completion(nil, error)

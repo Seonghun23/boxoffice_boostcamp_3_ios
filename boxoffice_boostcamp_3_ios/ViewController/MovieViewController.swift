@@ -14,7 +14,10 @@ class MovieViewController: UIViewController {
      
      This Property connected to refresh Method. If you add to it to TableView or CollectionView, You should override refresh method.
     */
-    public var refreshControl = UIRefreshControl()
+    public lazy var refreshControl = UIRefreshControl()
+    /*
+     초반에 바로 초기화 되지 않아도 되는 인스탠스는 lazy로 선언하면 성능향상에 도움이 된다고 리뷰받은적이 있습니다. 참고하시면 좋을것 같습니다.
+     */
 
     override func viewDidLoad() {
         super.viewDidLoad()

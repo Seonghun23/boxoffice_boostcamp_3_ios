@@ -5,6 +5,12 @@
 //  Created by ylabs on 13/12/2018.
 //  Copyright © 2018 Seonghun Kim. All rights reserved.
 //
+/*
+ 스위프트 가이드 문서에 보면 프로토콜의 네이밍은 아래와 같은 방식을 추천하고 있습니다.
+ 
+ Protocols that describe what something is should read as nouns (e.g. Collection).
+ 
+ Protocols that describe a capability should be named using the suffixes able, ible, or ing (e.g. Equatable, ProgressReporting). */
 
 import UIKit
 

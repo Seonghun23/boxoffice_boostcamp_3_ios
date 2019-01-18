@@ -16,7 +16,17 @@ class MovieListTableViewController: MovieViewController, ImageAssetsNameProtocol
     private let cellIdentifier = "MovieListTableViewCell"
     private let movieAPI = MovieAPI()
     private var movies = [MovieInfo]()
-    private var thumbImages = [Int:UIImage?]()
+    private var thumbImages = [Int: UIImage?]()
+    
+    /*
+     private var thumbImages = [Int:UIImage?]() -> 성훈님 코드
+     
+     가이드 문서에 보면 (raywenderlich) 아래와 같은 방식을 추천하고 있습니다. [someType: someType]과 같은 컨벤션을 지키는것이 필요하다고 생각합니다.
+     Preferred:
+ 
+ class TestDatabase: Database {
+ var data: [String: CGFloat] = ["A": 1.2, "B": 3.2]
+ }*/
     private var sortType = MovieAPI.sortType {
         didSet {
             switch sortType {
@@ -158,7 +168,10 @@ extension MovieListTableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MovieListTableViewCell else {
-            fatalError("Fail to Create MovieList TableView Cell")
+            return .init()
+            //fatalError("Fail to Create MovieList TableView Cell")
+            //성향에 따라 다르겠으나 fatalError는 앱이 종료되게 하므로 최대한 그런 상황이 생기지 않게 return .init() 과 같은 방식으로 구성하면 안전하다고 리뷰어님들께 배운 기억이 있습니다.
+        
         }
 
         cell.movieInfo = movies[indexPath.row]
