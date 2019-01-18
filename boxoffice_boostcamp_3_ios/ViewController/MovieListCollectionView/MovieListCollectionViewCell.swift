@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieListCollectionViewCell: UICollectionViewCell, ImageAssetsNameProtocol, ViewLayoutProtocol {
+class MovieListCollectionViewCell: UICollectionViewCell, Fetchable, GradeImageCaculating {
     // MARK:- Outlet
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var gradeView: UIView!
