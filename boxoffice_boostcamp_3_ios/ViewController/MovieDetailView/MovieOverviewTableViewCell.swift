@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieOverviewTableViewCell: UITableViewCell, ImageAssetsNameProtocol, ViewLayoutProtocol {
+class MovieOverviewTableViewCell: UITableViewCell, Fetchable, GradeImageCaculating {
     // MARK:- Outlet
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -22,7 +22,7 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageAssetsNameProtocol, View
     @IBOutlet weak var audienceLabel: UILabel!
     
     // MARK:- Properties
-    weak public var delegate: HandleShowLargeThumbImageProtocol?
+    weak public var delegate: HandleShowLargeThumbImageDelegate?
     weak private var thumbImage: UIImage?
     private var rate: Double = 0.0 {
         didSet {
@@ -59,7 +59,7 @@ class MovieOverviewTableViewCell: UITableViewCell, ImageAssetsNameProtocol, View
     // MARK:- Set Star Rate Image
     private func setStarRateImage(rate: Double) {
         for (i, imageView) in starRateImageView.enumerated() {
-            imageView.image = starRateImage(index: i, rate: rate)
+            imageView.image = selectStarRateImage(index: i, rate: rate)
         }
     }
     

@@ -8,46 +8,48 @@
 
 import UIKit
 
-class MovieListTableViewController: MovieViewController, ImageAssetsNameProtocol {
+class MovieListTableViewController: MovieViewController, Fetchable {
+   
+    
     // MARK:- Outlet
     @IBOutlet weak var MovieListTableView: UITableView!
     
     // MARK:- Properties
     private let cellIdentifier = "MovieListTableViewCell"
-    private let movieAPI = MovieAPI()
+    //private let movieAPI = MovieAPI()
     private var movies = [MovieInfo]()
-    private var thumbImages = [Int:UIImage?]()
-    private var sortType = MovieAPI.sortType {
-        didSet {
-            switch sortType {
-            case .reservation:
-                navigationItem.title = "예매율순"
-            case .curation:
-                navigationItem.title = "큐레이션"
-            case .date:
-                navigationItem.title = "개봉일순"
-            }
-        }
-    }
+    private var thumbImages = [Int: UIImage?]()
+   // weak var alertViewDelegate: AlertViewDelegate?
+    /*
+     private var thumbImages = [Int:UIImage?]() -> 성훈님 코드
+     
+     가이드 문서에 보면 (raywenderlich) 아래와 같은 방식을 추천하고 있습니다. [someType: someType]과 같은 컨벤션을 지키는것이 필요하다고 생각합니다.
+     Preferred:
+ 
+ class TestDatabase: Database {
+ var data: [String: CGFloat] = ["A": 1.2, "B": 3.2]
+ }*/
+   
     
     // MARK:- Initialize
     override func viewDidLoad() {
         super.viewDidLoad()
 
         initializeTableView()
-        sortType = MovieAPI.sortType
-        fetchMovieList(sort: MovieAPI.sortType)
+        //sortType = MovieAPI.shared.sortType
+        fetchMovieList(sort: sortType)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if sortType != MovieAPI.sortType {
-            fetchMovieList(sort: MovieAPI.sortType)
+       /*
+        if sortType != MovieAPI.shared.sortType {
+            fetchMovieList(sort: MovieAPI.shared.sortType)
         } else {
-            sortType = MovieAPI.sortType
+            sortType = MovieAPI.shared.sortType
         }
-    }
+ */
+ }
     
     private func initializeTableView() {
         MovieListTableView.delegate = self
@@ -59,14 +61,18 @@ class MovieListTableViewController: MovieViewController, ImageAssetsNameProtocol
     @objc override func refresh(_ sender: UIRefreshControl) {
         super.refresh(sender)
         
-        fetchMovieList(sort: MovieAPI.sortType)
+        fetchMovieList(sort: MovieAPI.shared.sortType)
     }
 
     // MARK:- Fetch Movie List
-    private func fetchMovieList(sort: SortType) {
+    func fetchMovieList(sort: SortType) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        movieAPI.requestMovieList(sort: sort) { (movieList, error) in
+        guard let request = MovieAPI.shared.makeRequest(url: .list, param: .orderType, "", sort) else {
+            return
+        }
+        // request.httpMethod = "GET" // URLRequest는 default로 get method를 사용하는 것으로 알고있습니다.
+        MovieAPI.shared.requestMovieData(request: request, with: MovieList.self) { (movieList, error) in
             guard let movieList = movieList else {
                 self.showFailToNetworkingAlertController(error: error)
                 return
@@ -105,35 +111,7 @@ class MovieListTableViewController: MovieViewController, ImageAssetsNameProtocol
     // MARK:- Touch Up Sort Button
     @IBAction func touchUpSortButton(_ sender: UIBarButtonItem) {
         showSortAlertController()
-    }
-    
-    // MARK:- Show Sort Action Sheet
-    private func showSortAlertController() {
-        let alertController = UIAlertController(title: "정렬방식 선택", message: "영화를 어떤 순서로 정렬할까요?", preferredStyle: .actionSheet)
-        
-        let reservationAction = UIAlertAction(title: "예매율", style: .default) { _ in
-            self.requestSortedMovieList(sort: .reservation)
-        }
-        let curationAction = UIAlertAction(title: "큐레이션", style: .default) { _ in
-            self.requestSortedMovieList(sort: .curation)
-        }
-        let dateAction = UIAlertAction(title: "개봉일", style: .default) { _ in
-            self.requestSortedMovieList(sort: .date)
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alertController.addAction(reservationAction)
-        alertController.addAction(curationAction)
-        alertController.addAction(dateAction)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    private func requestSortedMovieList(sort: SortType) {
-        if sort != sortType {
-            fetchMovieList(sort: sort)
-        }
+        //alertViewDelegate?.shouldUpdateList(with: sortType)
     }
     
     // MARK: - Navigation
@@ -145,7 +123,6 @@ class MovieListTableViewController: MovieViewController, ImageAssetsNameProtocol
                 print("Fail To Prepare for TableView Segue")
                 return
         }
-        
         VC.movieId = movies[index.row].id
     }
 }
@@ -158,14 +135,14 @@ extension MovieListTableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MovieListTableViewCell else {
-            fatalError("Fail to Create MovieList TableView Cell")
+            return .init()
+            //fatalError("Fail to Create MovieList TableView Cell")
+            //성향에 따라 다르겠으나 fatalError는 앱이 종료되게 하므로 최대한 그런 상황이 생기지 않게 return .init() 과 같은 방식으로 구성하면 안전하다고 리뷰어님들께 배운 기억이 있습니다.
         }
-
         cell.movieInfo = movies[indexPath.row]
         if let image = thumbImages[indexPath.row] {
             cell.thumbImageView.image = image
         }
-        
         return cell
     }
 }
