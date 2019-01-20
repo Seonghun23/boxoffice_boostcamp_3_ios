@@ -7,17 +7,10 @@
 //
 
 import UIKit
-
-
 /*
  baseController로서의 기능을 조금 더 보태기 위해 공통된 부분을 추가하였습니다. 또한 sortType 변경시 테이블뷰 컬렉션 뷰에 동시에 반응할 수 있도록 델리게이트 패턴을 추가하였습니다.
  */
-class MovieViewController: UIViewController{
-    /**
-     Refresh Controller for TableView and CollectionView.
-     
-     This Property connected to refresh Method. If you add to it to TableView or CollectionView, You should override refresh method.
-    */
+class MovieViewController: UIViewController {
     weak var alertViewDelegate: AlertViewDelegate?
     public lazy var refreshControl = UIRefreshControl()
     /*
@@ -33,37 +26,24 @@ class MovieViewController: UIViewController{
                 navigationItem.title = "큐레이션"
             case .date:
                 navigationItem.title = "개봉일순"
-                
             }
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*
+         refreshControl을 처음 사용될 때 초기화 되도록 lazy로 선언하신것 같은데, viewDidLoad에서 호출되기 때문에 의도하신 바와 어긋난다고 생각이 들었습니다.
+         tableView 혹은 collectionView 자체에 refreshControl 프로퍼티를 이용하여 리프레시를 설정하는 방법도 좋을것 같다고 생각이 듭니다.
+         */
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
     }
     
     // MARK:- Refresh Method
-    /**
-     Action to refreshControl.
-     
-     This Method is Action to refreshControl. If you add to refreshControl to TableView or CollectionView, You should override this method.
-     
-     - parameters:
-        - sender: It's UIRefreshControl which call this method.
-     */
     @objc public func refresh(_ sender: UIRefreshControl) {
     }
     
     // MARK:- Alert Fail to Networking
-    /**
-     Present Alert Controller for Fail to Networking.
-     
-     This Method present Alert Controller for Fail to Networking. You can call it when Fail to Networking with Error.
-     
-     - parameters:
-     - error: Error to Networking Fail.
-     */
     public func showFailToNetworkingAlertController(error: Error?) {
         print(error?.localizedDescription ?? "Fail To Networing with No Error Message")
         
