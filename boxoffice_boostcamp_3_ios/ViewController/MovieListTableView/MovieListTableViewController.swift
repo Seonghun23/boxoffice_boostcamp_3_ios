@@ -72,6 +72,14 @@ class MovieListTableViewController: MovieViewController, Fetchable {
             return
         }
         // request.httpMethod = "GET" // URLRequest는 default로 get method를 사용하는 것으로 알고있습니다.
+        
+        /*
+         이런식으로 강한참조 순환을 피하기 위해서 self를 weak로 획득하는것이 좋다고 생각합니다.
+         이 경우 self는 옵셔널 타입으로 캡쳐되기 때문에 사용시 옵셔널 바인딩 해주셔야 합니다.
+         MovieAPI.shared.requestMovieData(request: request, with: MovieList.self) { [weak self] (movieList, error)
+         ...
+         }
+         */
         MovieAPI.shared.requestMovieData(request: request, with: MovieList.self) { (movieList, error) in
             guard let movieList = movieList else {
                 self.showFailToNetworkingAlertController(error: error)

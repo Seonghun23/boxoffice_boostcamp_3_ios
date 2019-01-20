@@ -33,32 +33,9 @@ class MovieAPI: ErrorProcessing {
      Static Movie List Sort Type Property.
      */
     var sortType: SortType = .reservation
+
     
     // MARK:- Request Movie List
-    /**
-     Request Movie List from goorm server.
-     
-     This Method request Movie List with Asynchronous. After finish Networking, call Completion. If fail to Networking, you can check Error. When Networking is Success, Error is nil.
-     
-     ```
-     let sort: SortType = .reservation
-     
-     requestMovieList(sort: sort, completion: { (movieList: MovieList?, error: Error?) in
-        if let movieList = movieList {
-            // Success fetch Movie List
-        } else {
-            // Fail fetch Movie List
-        }
-     })
-     ```
-     
-     - parameters:
-        - sort: Sort Type for Movie List.
-        - completion: It's going to work after finish Networking. If fail to Networking, MovieList is nil.
-     */
-    
-    
-    
     /*
      requestMovieList 와 requestMovieDetail 는 사실상 같은 일을하는 메서드로
      MovieList 나 MovieDetail 둘중하나를 fetching하는 일을 나누신 것으로 보여집니다. 제너릭 기능을 사용하여 하나로 합쳐볼 수 있을 것 같습니다.
